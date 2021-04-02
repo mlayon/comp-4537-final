@@ -1,4 +1,5 @@
 const express = require("express");
+const querystring = require("querystring");
 const cors = require("cors");
 const { pool } = require("./config");
 
@@ -42,7 +43,23 @@ const addAccount = (request, response) => {
 	);
 };
 
-const getPosts = (request, response) => {
+// sample request
+// localhost:3000/post?id=1
+const getPost = (request, response) => {
+	let post_id = request.query.id;
+	pool.query(
+		"SELECT * FROM post WHERE post_id = $1",
+		[post_id],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			response.status(200).json(results.rows);
+		}
+	);
+};
+
+const getAllPosts = (request, response) => {
 	pool.query("SELECT * FROM post", (error, results) => {
 		if (error) {
 			throw error;
@@ -99,24 +116,115 @@ const updatePost = (request, response) => {
 			if (error) {
 				throw error;
 			}
-			response.status(201).json({ status: "success", message: "Post updated." });
+			response
+				.status(201)
+				.json({ status: "success", message: "Post updated." });
 		}
 	);
 };
 
-// sample json
-// {
-//     "post_id": 3
-// }
+// sample request
+// localhost:3000/post?id=1
 const deletePost = (request, response) => {
-	let post_id = request.body.post_id;
+	let post_id = request.query.id;
 
+	// delete comments referencing the post first
+	pool.query("DELETE FROM comment WHERE post_id = $1", [post_id], (error) => {
+		if (error) {
+			throw error;
+		}
+	});
+
+	// delete actual post
 	pool.query("DELETE FROM post WHERE post_id = $1", [post_id], (error) => {
 		if (error) {
 			throw error;
 		}
 		response.status(201).json({ status: "success", message: "Post deleted." });
 	});
+};
+
+// sample request
+// localhost:3000/comment?id=1
+const getComment = (request, response) => {
+	let post_id = request.query.id;
+	pool.query(
+		"SELECT * FROM comment WHERE post_id = $1",
+		[post_id],
+		(error, results) => {
+			if (error) {
+				throw error;
+			}
+			response.status(200).json(results.rows);
+		}
+	);
+};
+
+// sample json
+// {
+//     "content": "test comment",
+//     "user_id": 2,
+//     "post_id": 2
+// }
+const addComment = (request, response) => {
+	let content = request.body.content;
+	let user_id = request.body.user_id;
+	let post_id = request.body.post_id;
+
+	pool.query(
+		"INSERT INTO comment (content, user_id, post_id) VALUES ($1, $2, $3)",
+		[content, user_id, post_id],
+		(error) => {
+			if (error) {
+				throw error;
+			}
+			response
+				.status(201)
+				.json({ status: "success", message: "Comment added." });
+		}
+	);
+};
+
+// sample json
+// {
+//     "content": "updated comment",
+//     "comment_id": 1
+// }
+const updateComment = (request, response) => {
+	let content = request.body.content;
+	let comment_id = request.body.comment_id;
+
+	pool.query(
+		"UPDATE comment SET content = $1 WHERE comment_id = $2",
+		[content, comment_id],
+		(error) => {
+			if (error) {
+				throw error;
+			}
+			response
+				.status(201)
+				.json({ status: "success", message: "Comment updated." });
+		}
+	);
+};
+
+// sample request
+// localhost:3000/comment?id=1
+const deleteComment = (request, response) => {
+	let comment_id = request.query.id;
+
+	pool.query(
+		"DELETE FROM comment WHERE comment_id = $1",
+		[comment_id],
+		(error) => {
+			if (error) {
+				throw error;
+			}
+			response
+				.status(201)
+				.json({ status: "success", message: "Comment deleted." });
+		}
+	);
 };
 
 app.get("/", (req, res) => {
@@ -130,16 +238,46 @@ app
 	// POST /account
 	.post(addAccount);
 
+
 app
 	.route("/post")
 	// GET /post
-	.get(getPosts)
+	.get(getPost)
 	// POST /post
 	.post(addPost)
 	// PUT /post
 	.put(updatePost)
 	// DELETE /post
 	.delete(deletePost);
+
+app
+	.route("/post/all")
+	// GET /post/all
+	.get(getAllPosts)
+
+
+app
+	.route("/comment")
+	// GET /comment
+	.get(getComment)
+	// POST /comment
+	.post(addComment)
+	// PUT /comment
+	.put(updateComment)
+	// DELETE /comment
+	.delete(deleteComment);
+
+// app
+// 	.route("/stats")
+// 	// GET /stats
+// 	.get(getStats)
+// 	// PUT /states
+// 	.put(updateStats)
+
+// app
+// 	.route("/admin")
+// 	// POST /admin
+// 	.post(loginAdmin)
 
 app.listen(port, () => {
 	console.log(`App listening at http://localhost:${port}`);
