@@ -1,0 +1,22 @@
+{
+  "name": "comp-4537-final",
+  "version": "1.0.0",
+  "description": "final project for COMP 4537",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlayon/comp-4537-final.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlayon/comp-4537-final/issues"
+  },
+  "homepage": "https://github.com/mlayon/comp-4537-final#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
