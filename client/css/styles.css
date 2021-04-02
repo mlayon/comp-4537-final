@@ -1,0 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap");
+body {
+    padding-left: 4%;
+    padding-bottom: 4%;
+    font-family: "Fraunces", serif;
+}
+
+textarea {
+    width: 100%;
+}
+
+.mainWidth {
+    width: 30em;
+}
+
+
+.buttons button {
+    margin-right: 3em;
+}

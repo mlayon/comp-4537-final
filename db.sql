@@ -50,4 +50,21 @@ INSERT INTO post (post_date, title, topic, content, user_id) VALUES('2021-01-22 
 INSERT INTO comment (content, user_id, post_id) VALUES('freshlice is better', 3, 1);
 INSERT INTO comment (content, user_id, post_id) VALUES('cats are better! purr', 2, 2);
 
-INSERT INTO stats (method, endpoint) VALUES('GET', '/post');
+
+INSERT INTO stats (method, endpoint) VALUES('GET', '/comment/id');
+INSERT INTO stats (method, endpoint) VALUES('GET', '/post/id');
+INSERT INTO stats (method, endpoint) VALUES('GET', '/post/all');
+INSERT INTO stats (method, endpoint) VALUES('GET', '/stats');
+
+INSERT INTO stats (method, endpoint) VALUES('POST', '/account');
+INSERT INTO stats (method, endpoint) VALUES('POST', '/admin');
+INSERT INTO stats (method, endpoint) VALUES('POST', '/comment');
+INSERT INTO stats (method, endpoint) VALUES('POST', '/login');
+INSERT INTO stats (method, endpoint) VALUES('POST', '/post');
+
+INSERT INTO stats (method, endpoint) VALUES('PUT', '/post');
+INSERT INTO stats (method, endpoint) VALUES('PUT', '/comment');
+INSERT INTO stats (method, endpoint) VALUES('PUT', '/stats');
+
+INSERT INTO stats (method, endpoint) VALUES('DELETE', '/post');
+INSERT INTO stats (method, endpoint) VALUES('DELETE', '/comment');

@@ -7,7 +7,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	res.header("Access-Control-Allow-Methods","*");
+	next();
+  });
 
 const getAccounts = (request, response) => {
 	pool.query("SELECT * FROM account", (error, results) => {
@@ -227,6 +234,15 @@ const deleteComment = (request, response) => {
 	);
 };
 
+const getStats = (request, response) => {
+	pool.query("SELECT * FROM stats", (error, results) => {
+		if (error) {
+			throw error;
+		}
+		response.status(200).json(results.rows);
+	});
+};
+
 app.get("/", (req, res) => {
 	res.send("Hello World!");
 });
@@ -267,12 +283,18 @@ app
 	// DELETE /comment
 	.delete(deleteComment);
 
+
 // app
-// 	.route("/stats")
-// 	// GET /stats
-// 	.get(getStats)
-// 	// PUT /states
-// 	.put(updateStats)
+// 	.route("/login")
+// 	// POST /login
+// 	.post(login)
+
+app
+	.route("/stats")
+	// GET /stats
+	.get(getStats)
+	// // PUT /stats
+	// .put(updateStats)
 
 // app
 // 	.route("/admin")
