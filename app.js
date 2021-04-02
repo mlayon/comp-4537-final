@@ -8,7 +8,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-
 const getAccounts = (request, response) => {
 	pool.query("SELECT * FROM account", (error, results) => {
 		if (error) {
@@ -64,9 +63,9 @@ const getPosts = (request, response) => {
 const addPost = (request, response) => {
 	let post_date = request.body.post_date;
 	let title = request.body.title;
-    let topic = request.body.topic;
-    let content = request.body.content;
-    let user_id = request.body.user_id;
+	let topic = request.body.topic;
+	let content = request.body.content;
+	let user_id = request.body.user_id;
 
 	pool.query(
 		"INSERT INTO post (post_date, title, topic, content, user_id) VALUES ($1, $2, $3, $4, $5)",
@@ -75,11 +74,49 @@ const addPost = (request, response) => {
 			if (error) {
 				throw error;
 			}
-			response
-				.status(201)
-				.json({ status: "success", message: "Post added." });
+			response.status(201).json({ status: "success", message: "Post added." });
 		}
 	);
+};
+
+// sample json
+// {
+//     "title": "updated post",
+//     "topic": "updated topic",
+//     "content": "updated content",
+//     "post_id": 2
+// }
+const updatePost = (request, response) => {
+	let title = request.body.title;
+	let topic = request.body.topic;
+	let content = request.body.content;
+	let post_id = request.body.post_id;
+
+	pool.query(
+		"UPDATE post SET title = $1, topic = $2, content = $3 WHERE post_id = $4",
+		[title, topic, content, post_id],
+		(error) => {
+			if (error) {
+				throw error;
+			}
+			response.status(201).json({ status: "success", message: "Post updated." });
+		}
+	);
+};
+
+// sample json
+// {
+//     "post_id": 3
+// }
+const deletePost = (request, response) => {
+	let post_id = request.body.post_id;
+
+	pool.query("DELETE FROM post WHERE post_id = $1", [post_id], (error) => {
+		if (error) {
+			throw error;
+		}
+		response.status(201).json({ status: "success", message: "Post deleted." });
+	});
 };
 
 app.get("/", (req, res) => {
@@ -99,10 +136,10 @@ app
 	.get(getPosts)
 	// POST /post
 	.post(addPost)
-    // // DELETE /post
-    // .delete(deletePost)
-    // // PUT /post
-    // .put(updatePost)
+	// PUT /post
+	.put(updatePost)
+	// DELETE /post
+	.delete(deletePost);
 
 app.listen(port, () => {
 	console.log(`App listening at http://localhost:${port}`);
