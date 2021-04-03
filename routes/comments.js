@@ -1,16 +1,19 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
 const router = require('express').Router();
+const db = require('../utils/database');
+const _ = require('lodash');
 
-// sample request
+// sample req
 // localhost:3000/comment?id=1
-function getComment(request, response) {
-    let post_id = request.query.id;
+async function getComment(req, res) {
+    let commentID = req.query.id;
 
-    const comment = await db.getComment(content, user_id, post_id);
+    const comment = await db.getComment(commentID);
 
-    response
-        .status(201)
-        .json(comment);
+    if (!comment)
+        return res.status(404).json(formatError(`No comment found with id: ${commentID}`));
+
+    res.status(200).json(formatSuccess(comment));
 };
 
 // sample json
@@ -19,16 +22,12 @@ function getComment(request, response) {
 //     "user_id": 2,
 //     "post_id": 2
 // }
-function addComment(request, response) {
-    let content = request.body.content;
-    let user_id = request.body.user_id;
-    let post_id = request.body.post_id;
+async function addComment(req, res) {
+    const comment = _.pick(req.body, ['content', 'user_id', 'post_id']);
 
-    db.addComment(content, user_id, post_id);
+    await db.addComment(comment.content, comment.user_id, comment.post_id);
 
-    response
-        .status(201)
-        .json({ status: "success", message: "Comment added." });
+    res.status(201).json(formatSuccess("Comment added."));
 };
 
 // sample json
@@ -36,19 +35,18 @@ function addComment(request, response) {
 //     "content": "updated comment",
 //     "comment_id": 1
 // }
-function updateComment(request, response) {
-    let content = request.body.content;
-    let comment_id = request.body.comment_id;
-
-    db.updateComment(content, comment_id);
+async function updateComment(req, res) {
+    const comment = _.pick(req.body, ['content', 'comment_id']);
+    await db.updateComment(content, comment_id);
+    res.status(200).json(formatSuccess("Comment updated."));
 };
 
-// sample request
+// sample req
 // localhost:3000/comment?id=1
-function deleteComment(request, response) {
-    let comment_id = request.query.id;
-
-    deleteComment(comment_id);
+async function deleteComment(req, res) {
+    let comment_id = req.query.id;
+    await db.deleteComment(comment_id);
+    res.status(200).json(formatSuccess("Comment deleted."))
 };
 
 router.get('/', getComment);

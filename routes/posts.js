@@ -1,19 +1,24 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
-const db = require('../utils/database')
+const db = require('../utils/database');
+const _ = require('lodash');
 
 const router = require('express').Router();
 
 // sample request
 // localhost:3000/post?id=1
-function getPost(request, response) {
-    let post_id = request.query.id;
-    db.getPost(post_id);
+async function getPost(req, resp) {
+    let post_id = req.query.id;
+    let post = await db.getPost(post_id);
+
+    if (!post)
+        return res.status(404).json(formatError(`No post found with id: ${post_id}`));
+
+    res.status(200).json(formatSuccess(post));
 };
 
-function getAllPosts(request, response) {
-    db.getAllPosts();
-
-    response.status(200).json(results.rows);
+async function getAllPosts(req, resp) {
+    let posts = await db.getAllPosts();
+    resp.status(200).json(formatSuccess(posts));
 };
 
 // sample json
@@ -25,14 +30,10 @@ function getAllPosts(request, response) {
 //     "user_id": 2
 
 // }
-function addPost(request, response) {
-    let post_date = request.body.post_date;
-    let title = request.body.title;
-    let topic = request.body.topic;
-    let content = request.body.content;
-    let user_id = request.body.user_id;
-
-    db.createPost(post_date, title, topic, content, user_id);
+function addPost(req, resp) {
+    let post = _.pick(req.body, ['post_date', 'title', 'topic', 'content', 'user_id']);
+    db.createPost(post.post_date, post.title, post.topic, post.content, post.user_id);
+    resp.status(200).json(formatSuccess("Post created."))
 };
 
 // sample json
@@ -42,27 +43,24 @@ function addPost(request, response) {
 //     "content": "updated content",
 //     "post_id": 2
 // }
-function updatePost(request, response) {
-    let title = request.body.title;
-    let topic = request.body.topic;
-    let content = request.body.content;
-    let post_id = request.body.post_id;
-
-    db.updatePost(title, topic, content, post_id);
+function updatePost(req, resp) {
+    let post = _.pick(req.body, ['title', 'topic', 'content', 'post_id']);
+    db.updatePost(post.title, post.topic, post.content, post.post_id);
+    resp.status(200).json(formatSuccess('Post updated.'))
 };
 
-// sample request
+// sample req
 // localhost:3000/post?id=1
-function deletePost(request, response) {
-    let post_id = request.query.id;
-
+function deletePost(req, resp) {
+    let post_id = req.query.id;
     db.deletePost(post_id);
+    resp.status(200).json(formatSuccess('Post deleted.'))
 };
 
 router.get('/', getPost);
 router.get('/all', getAllPosts);
 router.post('/', addPost);
-router.update('/', updatePost);
+router.put('/', updatePost);
 router.delete('/', deletePost);
 
 module.exports = router;

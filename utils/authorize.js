@@ -19,7 +19,7 @@ async function authorize(req, res, next) {
         next()
     } else {
         console.info(`Invalid auth token from ${req.connection.remoteAddress}`)
-        return res.status(400).send(formatError("Invalid auth token"))
+        return res.status(400).json(formatError("Invalid auth token"))
     }
 }
 

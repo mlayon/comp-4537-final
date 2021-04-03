@@ -1,11 +1,15 @@
+const { formatSuccess, formatError } = require('../utils/respFormat');
 const db = require('../utils/database')
-const router = require('express').Router();
+const bcrypt = require('bcrypt');
 const _ = require('lodash');
 
-function getAccount(req, resp) {
+const router = require('express').Router();
+const saltRounds = 10;
+
+async function getAccount(req, resp) {
     let email = _.pick(req.body, ['email']);
-    const users = await db.getUsers(email);
-    resp.status(200).json(users);
+    const users = await db.getUser(email);
+    resp.status(200).json(formatSuccess(users));
 };
 
 // sample data
@@ -14,16 +18,20 @@ function getAccount(req, resp) {
 //     "password": "password",
 //     "email": "test@email.com"
 // }
-function addAccount(req, resp) {
-    let username = req.body.username;
-    let password = req.body.password;
-    let email = req.body.email;
+async function addAccount(req, resp) {
+    let user = _.pick(req.body, ['username', 'password', 'email']);
 
-    db.createUser(username, password, email);
+    let emailTaken = await db.getUser(user.email);
+    if (emailTaken)
+        return resp.status(409).json(formatError("Email is taken."))
 
-    resp
-        .status(201)
-        .json({ status: "success", message: "Account added." });
+    await db.createUser(user.username, bcrypt.hashSync(user.password, saltRounds), user.email);
+
+    // JWT creation should be pulled into a util function
+    account = _.pick(account, ['username', 'email', 'is_admin'])
+    let jwt = jwt.sign(account, process.env.token_secret)
+
+    resp.status(200).json(formatSuccess(jwt));
 };
 
 router.get('/', getAccount);

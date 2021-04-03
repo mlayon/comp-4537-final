@@ -16,6 +16,14 @@ const pool = new Pool({
     }
 })
 
+// TODO: Check that data entries are successful
+
+// TODO: Validate resource ownership by querying with the user_id
+
+// TODO: Check that the resource is actually deleted
+
+// TODO: Check that the resource is actually updated
+
 async function queryDB(query, args = null, responseType = RESPONSE_TYPE.NONE) {
     const result = await pool.query(query, args)
     const rows = result.rows;
@@ -39,11 +47,11 @@ async function getUser(email) {
 }
 
 async function createUser(username, password, email) {
-    return await queryDB("INSERT INTO account (username, password, email) VALUES ($1, $2, $3)", [username, password, email]);
+    return await queryDB("INSERT INTO account (username, password, email) VALUES ($1, $2, $3)", [username, password, email], RESPONSE_TYPE.NONE);
 }
 
-async function getPost(post_id) {
-    return await queryDB("SELECT * FROM comment WHERE post_id = $1", [post_id], RESPONSE_TYPE.SINGLE);
+async function getComment(comment_id) {
+    return await queryDB("SELECT * FROM comment WHERE comment_id = $1", [comment_id], RESPONSE_TYPE.SINGLE);
 }
 
 async function addComment(content, user_id, post_id) {
@@ -51,7 +59,7 @@ async function addComment(content, user_id, post_id) {
 }
 
 async function updateComment(content, comment_id) {
-    return await queryDB("UPDATE commenttent = $1 WHERE comment_id = $2", [content, comment_id], RESPONSE_TYPE.NONE);
+    return await queryDB("UPDATE comment SET content = $1 WHERE comment_id = $2", [content, comment_id], RESPONSE_TYPE.NONE);
 }
 
 async function deleteComment(comment_id) {
@@ -67,16 +75,20 @@ async function getAllPosts() {
 }
 
 async function createPost(post_date, title, topic, content, user_id) {
-    return await queryDB("INSERT INTO post (post_date, title, topic, content, user_id) VALUES ($1, $2, $3, $4, $5)", [post_date, title, topic, content, user_id], responseType = RESPONSE_TYPE.MANY);
+    return await queryDB("INSERT INTO post (post_date, title, topic, content, user_id) VALUES ($1, $2, $3, $4, $5)", [post_date, title, topic, content, user_id], RESPONSE_TYPE.NONE);
 }
 
 async function updatePost(title, topic, content, post_id) {
-    return await queryDB("UPDATE post SET title = $1, topic = $2, content = $3 WHERE post_id = $4", [title, topic, content, post_id], responseType = RESPONSE_TYPE.NONE);
+    return await queryDB("UPDATE post SET title = $1, topic = $2, content = $3 WHERE post_id = $4", [title, topic, content, post_id], RESPONSE_TYPE.NONE);
 }
 
 async function deletePost(post_id) {
-    await queryDB("DELETE FROM comment WHERE post_id = $1", [post_id], responseType = RESPONSE_TYPE.NONE);
-    return await queryDB("DELETE FROM post WHERE post_id = $1", [post_id], responseType = RESPONSE_TYPE.NONE);
+    await queryDB("DELETE FROM comment WHERE post_id = $1", [post_id], RESPONSE_TYPE.NONE);
+    return await queryDB("DELETE FROM post WHERE post_id = $1", [post_id], RESPONSE_TYPE.NONE);
+}
+
+async function getStats() {
+    return await queryDB("SELECT * FROM stats", responeType = RESPONSE_TYPE.MANY);
 }
 
 module.exports = {
@@ -84,11 +96,13 @@ module.exports = {
     getUser,
     createUser,
     getPost,
+    getComment,
     addComment,
     updateComment,
     deleteComment,
     getAllPosts,
     createPost,
     updatePost,
-    deletePost
+    deletePost,
+    getStats
 }

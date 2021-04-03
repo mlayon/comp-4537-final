@@ -1,13 +1,11 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
+const db = require('../utils/database');
+
 const router = require('express').Router();
 
-function getStats(request, response) {
-    pool.query("SELECT * FROM stats", (error, results) => {
-        if (error) {
-            throw error;
-        }
-        response.status(200).json(results.rows);
-    });
+async function getStats(req, resp) {
+    let stats = await db.getStats();
+    resp.status(200).json(formatSuccess(stats));
 };
 
 router.get('/', getStats);
