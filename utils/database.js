@@ -1,8 +1,6 @@
-require('dotenv').config()
-
 const { Pool } = require('pg')
-const isProduction = process.env.NODE_ENV === 'production'
 
+const isProduction = process.env.NODE_ENV === 'production'
 const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 
 const RESPONSE_TYPE = {
@@ -22,7 +20,7 @@ async function queryDB(query, args = null, responseType = RESPONSE_TYPE.NONE) {
     const result = await pool.query(query, args)
     const rows = result.rows;
 
-    switch (responeType) {
+    switch (responseType) {
         case RESPONSE_TYPE.NONE:
             return;
         case RESPONSE_TYPE.SINGLE:
@@ -83,6 +81,7 @@ async function deletePost(post_id) {
 
 module.exports = {
     getUsers,
+    getUser,
     createUser,
     getPost,
     addComment,

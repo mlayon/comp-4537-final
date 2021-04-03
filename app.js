@@ -1,6 +1,10 @@
+require('dotenv').config()
+
 const express = require("express");
 const querystring = require("querystring");
 const cors = require("cors");
+const morgan = require("morgan");
+const authorize = require("./utils/authorize");
 const { pool } = require("./config");
 
 const accountRoute = require('./routes/accounts');
@@ -12,6 +16,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(morgan('tiny'));
 
 // TODO: Change to allow access only from known forum url
 app.use(function(req, res, next) {
@@ -25,6 +30,10 @@ app.use(function(req, res, next) {
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+
+app.post("/login", )
+
+app.use(authorize);
 
 app.get("/account", accountRoute.getAccount);
 app.post("/account", accountRoute.addAccount);

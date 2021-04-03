@@ -1,4 +1,5 @@
 const db = require('../utils/database')
+const router = require('express').Router();
 
 function getAccount(request, response) {
     const users = await db.getUsers();
@@ -23,7 +24,7 @@ function addAccount(request, response) {
         .json({ status: "success", message: "Account added." });
 };
 
-module.exports = {
-    getAccount,
-    addAccount
-}
+router.get('/', getAccount);
+router.post('/', addAccount);
+
+module.exports = router;

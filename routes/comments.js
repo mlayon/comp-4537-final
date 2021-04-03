@@ -1,3 +1,6 @@
+const { formatSuccess, formatError } = require('../utils/respFormat');
+const router = require('express').Router();
+
 // sample request
 // localhost:3000/comment?id=1
 function getComment(request, response) {
@@ -48,9 +51,9 @@ function deleteComment(request, response) {
     deleteComment(comment_id);
 };
 
-module.exports = {
-    getComment,
-    addComment,
-    updateComment,
-    deleteComment
-}
+router.get('/', getComment);
+router.post('/', addComment);
+router.put('/', updateComment);
+router.delete('/', deleteComment);
+
+module.exports = router;
