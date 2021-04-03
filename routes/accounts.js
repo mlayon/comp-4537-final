@@ -1,6 +1,7 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
 const db = require('../utils/database')
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 
 const router = require('express').Router();
@@ -28,10 +29,10 @@ async function addAccount(req, resp) {
     await db.createUser(user.username, bcrypt.hashSync(user.password, saltRounds), user.email);
 
     // JWT creation should be pulled into a util function
-    account = _.pick(account, ['username', 'email', 'is_admin'])
-    let jwt = jwt.sign(account, process.env.token_secret)
+    user = _.pick(user, ['username', 'email', 'is_admin'])
+    let token = jwt.sign(user, process.env.TOKEN_SECRET)
 
-    resp.status(200).json(formatSuccess(jwt));
+    resp.status(200).json(formatSuccess(token));
 };
 
 router.get('/', getAccount);

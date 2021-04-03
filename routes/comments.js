@@ -7,7 +7,6 @@ const _ = require('lodash');
 // localhost:3000/comment?id=1
 async function getComment(req, res) {
     let commentID = req.query.id;
-
     const comment = await db.getComment(commentID);
 
     if (!comment)
@@ -23,10 +22,8 @@ async function getComment(req, res) {
 //     "post_id": 2
 // }
 async function addComment(req, res) {
-    const comment = _.pick(req.body, ['content', 'user_id', 'post_id']);
-
-    await db.addComment(comment.content, comment.user_id, comment.post_id);
-
+    const comment = _.pick(req.body, ['content', 'post_id']);
+    await db.addComment(comment.content, req.user.user_id, comment.post_id);
     res.status(201).json(formatSuccess("Comment added."));
 };
 

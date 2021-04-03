@@ -15,13 +15,13 @@ async function login(req, res) {
         return res.status(400).json(formatError("Invalid login credentials"));
 
     // Invalid password
-    const validPassword = bcrypt.compare(password, user['password']);
+    const validPassword = await bcrypt.compare(account.password, user['password']);
     if (!validPassword)
         return res.status(400).json(formatError("Invalid login credentials"));
 
     // Valid login
     account = _.pick(account, ['username', 'email', 'is_admin'])
-    return res.status(200).json(formatSuccess(jwt.sign(account, process.env.token_secret)))
+    return res.status(200).json(formatSuccess(jwt.sign(account, process.env.TOKEN_SECRET)))
 }
 
 router.post('/', login);

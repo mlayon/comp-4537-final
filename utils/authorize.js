@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const db = require('../utils/database');
 const { formatError } = require('../utils/respFormat');
 
 function checkAuthToken(token) {
@@ -22,6 +23,9 @@ function authorize(adminOnly = false) {
                 console.info(`Invalid auth level from ${req.connection.remoteAddress}`)
                 return res.status(400).json(formatError("Invalid auth token"))
             }
+
+            // Store full user object for easier use
+            req.user = await db.getUser(req.user.email);
 
             next()
         } else {

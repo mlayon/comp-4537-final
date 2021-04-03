@@ -36,9 +36,9 @@ app.get("/", function(req, res) {
 // TODO: add versioning to the path. 
 
 app.use("/login", loginRouter);
+app.use("/account", accountRouter);
 app.use(authorize(false));
 
-app.use("/account", accountRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
 

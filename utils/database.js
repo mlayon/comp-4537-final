@@ -2,6 +2,7 @@ const { Pool } = require('pg')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
+console.log(connectionString);
 
 const RESPONSE_TYPE = {
     NONE: 'NONE',
@@ -11,9 +12,12 @@ const RESPONSE_TYPE = {
 
 const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: false
+
+    // Original ssl connection settings. Might be needed for hosting on heroku?
+    // ssl: {
+    //     rejectUnauthorized: false
+    // }
 })
 
 // TODO: Check that data entries are successful
@@ -25,7 +29,16 @@ const pool = new Pool({
 // TODO: Check that the resource is actually updated
 
 async function queryDB(query, args = null, responseType = RESPONSE_TYPE.NONE) {
-    const result = await pool.query(query, args)
+    console.log("Query DB:", query, args, responseType);
+
+    let result;
+    try {
+        result = await pool.query(query, args)
+    } catch (error) {
+        console.log("Error connecting to sql:", error);
+        return;
+    }
+
     const rows = result.rows;
 
     switch (responseType) {
