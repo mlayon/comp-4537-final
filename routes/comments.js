@@ -2,15 +2,12 @@
 // localhost:3000/comment?id=1
 function getComment(request, response) {
     let post_id = request.query.id;
-    pool.query(
-        "SELECT * FROM comment WHERE post_id = $1", [post_id],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(results.rows);
-        }
-    );
+
+    const comment = await db.getComment(content, user_id, post_id);
+
+    response
+        .status(201)
+        .json(comment);
 };
 
 // sample json
@@ -24,17 +21,11 @@ function addComment(request, response) {
     let user_id = request.body.user_id;
     let post_id = request.body.post_id;
 
-    pool.query(
-        "INSERT INTO comment (content, user_id, post_id) VALUES ($1, $2, $3)", [content, user_id, post_id],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response
-                .status(201)
-                .json({ status: "success", message: "Comment added." });
-        }
-    );
+    db.addComment(content, user_id, post_id);
+
+    response
+        .status(201)
+        .json({ status: "success", message: "Comment added." });
 };
 
 // sample json
@@ -46,17 +37,7 @@ function updateComment(request, response) {
     let content = request.body.content;
     let comment_id = request.body.comment_id;
 
-    pool.query(
-        "UPDATE commenttent = $1 WHERE comment_id = $2", [content, comment_id],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response
-                .status(201)
-                .json({ status: "success", message: "Comment updated." });
-        }
-    );
+    db.updateComment(content, comment_id);
 };
 
 // sample request
@@ -64,17 +45,7 @@ function updateComment(request, response) {
 function deleteComment(request, response) {
     let comment_id = request.query.id;
 
-    pool.query(
-        "DELETE FROM comment WHERE comment_id = $1", [comment_id],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response
-                .status(201)
-                .json({ status: "success", message: "Comment deleted." });
-        }
-    );
+    deleteComment(comment_id);
 };
 
 module.exports = {

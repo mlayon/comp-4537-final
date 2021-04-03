@@ -1,7 +1,7 @@
 const db = require('../utils/database')
 
 function getAccount(request, response) {
-    const users = await constdb.getUsers();
+    const users = await db.getUsers();
     response.status(200).json(users);
 };
 
@@ -16,20 +16,14 @@ function addAccount(request, response) {
     let password = request.body.password;
     let email = request.body.email;
 
-    pool.query(
-        "INSERT INTO account (username, password, email) VALUES ($1, $2, $3)", [username, password, email],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response
-                .status(201)
-                .json({ status: "success", message: "Account added." });
-        }
-    );
+    db.createUser(username, password, email);
+
+    response
+        .status(201)
+        .json({ status: "success", message: "Account added." });
 };
 
 module.exports = {
-    getAccount
+    getAccount,
     addAccount
 }

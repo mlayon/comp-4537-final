@@ -44,7 +44,6 @@ app.delete("/comment", commentRoute.deleteComment);
 
 app.get("/stats", statsRoute.getStats);
 
-
 // app
 // 	.route("/login")
 // 	// POST /login

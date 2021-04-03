@@ -1,25 +1,16 @@
+const db = require('../utils/database')
+
 // sample request
 // localhost:3000/post?id=1
 function getPost(request, response) {
     let post_id = request.query.id;
-    pool.query(
-        "SELECT * FROM post WHERE post_id = $1", [post_id],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).json(results.rows);
-        }
-    );
+    db.getPost(post_id);
 };
 
 function getAllPosts(request, response) {
-    pool.query("SELECT * FROM post", (error, results) => {
-        if (error) {
-            throw error;
-        }
-        response.status(200).json(results.rows);
-    });
+    db.getAllPosts();
+
+    response.status(200).json(results.rows);
 };
 
 // sample json
@@ -38,15 +29,7 @@ function addPost(request, response) {
     let content = request.body.content;
     let user_id = request.body.user_id;
 
-    pool.query(
-        "INSERT INTO post (post_date, title, topic, content, user_id) VALUES ($1, $2, $3, $4, $5)", [post_date, title, topic, content, user_id],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response.status(201).json({ status: "success", message: "Post added." });
-        }
-    );
+    db.createPost(post_date, title, topic, content, user_id);
 };
 
 // sample json
@@ -62,17 +45,7 @@ function updatePost(request, response) {
     let content = request.body.content;
     let post_id = request.body.post_id;
 
-    pool.query(
-        "UPDATE post SET title = $1, topic = $2, content = $3 WHERE post_id = $4", [title, topic, content, post_id],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response
-                .status(201)
-                .json({ status: "success", message: "Post updated." });
-        }
-    );
+    db.updatePost(title, topic, content, post_id);
 };
 
 // sample request
@@ -80,20 +53,7 @@ function updatePost(request, response) {
 function deletePost(request, response) {
     let post_id = request.query.id;
 
-    // delete comments referencing the post first
-    pool.query("DELETE FROM comment WHERE post_id = $1", [post_id], (error) => {
-        if (error) {
-            throw error;
-        }
-    });
-
-    // delete actual post
-    pool.query("DELETE FROM post WHERE post_id = $1", [post_id], (error) => {
-        if (error) {
-            throw error;
-        }
-        response.status(201).json({ status: "success", message: "Post deleted." });
-    });
+    db.deletePost(post_id);
 };
 
 module.exports = {
