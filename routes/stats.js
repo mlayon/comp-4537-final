@@ -10,6 +10,6 @@ function getStats(request, response) {
     });
 };
 
-module.exports = {
-    getStats
-}
+router.get('/', getStats);
+
+module.exports = router;

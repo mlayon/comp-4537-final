@@ -7,10 +7,11 @@ const morgan = require("morgan");
 const authorize = require("./utils/authorize");
 const { pool } = require("./config");
 
-const accountRoute = require('./routes/accounts');
-const postRoute = require('./routes/posts');
-const commentRoute = require('./routes/comments');
-const statsRoute = require('./routes/stats');
+const loginRouter = require('./routes/login');
+const accountRouter = require('./routes/accounts');
+const postRouter = require('./routes/posts');
+const commentRouter = require('./routes/comments');
+const statsRouter = require('./routes/stats');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,42 +27,20 @@ app.use(function(req, res, next) {
     next();
 });
 
-
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.post("/login", )
+// All endpoints are optimistic of the data they receive. If data validation is required, a module
+// such a joi could be used.
 
+app.use("/login", loginRouter);
 app.use(authorize);
 
-app.get("/account", accountRoute.getAccount);
-app.post("/account", accountRoute.addAccount);
-
-
-app.get("/post", postRoute.getPost);
-app.post("/post", postRoute.addPost);
-app.put("/post", postRoute.updatePost);
-app.delete("/post", postRoute.deletePost);
-
-app.get("/post/all", postRoute.getAllPosts);
-
-app.get("/comment", commentRoute.getComment);
-app.post("/comment", commentRoute.addComment)
-app.put("/comment", commentRoute.updateComment)
-app.delete("/comment", commentRoute.deleteComment);
-
-app.get("/stats", statsRoute.getStats);
-
-// app
-// 	.route("/login")
-// 	// POST /login
-// 	.post(login)
-
-// app
-// 	.route("/admin")
-// 	// POST /admin
-// 	.post(loginAdmin)
+app.use("/account", accountRouter);
+app.use("/post", postRouter);
+app.use("/comment", commentRouter);
+app.use("/stats", statsRouter);
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);

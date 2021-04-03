@@ -1,9 +1,11 @@
 const db = require('../utils/database')
 const router = require('express').Router();
+const _ = require('lodash');
 
-function getAccount(request, response) {
-    const users = await db.getUsers();
-    response.status(200).json(users);
+function getAccount(req, resp) {
+    let email = _.pick(req.body, ['email']);
+    const users = await db.getUsers(email);
+    resp.status(200).json(users);
 };
 
 // sample data
@@ -12,14 +14,14 @@ function getAccount(request, response) {
 //     "password": "password",
 //     "email": "test@email.com"
 // }
-function addAccount(request, response) {
-    let username = request.body.username;
-    let password = request.body.password;
-    let email = request.body.email;
+function addAccount(req, resp) {
+    let username = req.body.username;
+    let password = req.body.password;
+    let email = req.body.email;
 
     db.createUser(username, password, email);
 
-    response
+    resp
         .status(201)
         .json({ status: "success", message: "Account added." });
 };

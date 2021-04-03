@@ -1,11 +1,10 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
-const router = require('express').Router();
-
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const db = require('./database')
 const bcrypt = require('bcrypt');
-const { formatSuccess, formatError } = require('../utils/respFormat');
+
+const router = require('express').Router();
 
 async function login(req, res) {
     let account = _.pick(req.body, ['email', 'password']);
@@ -22,3 +21,7 @@ async function login(req, res) {
     account = _.pick(account, ['username', 'email', 'is_admin'])
     return res.status(200).send(formatSuccess(jwt.sign(account, process.env.token_secret)))
 }
+
+router.post('/', login);
+
+module.exports = router;

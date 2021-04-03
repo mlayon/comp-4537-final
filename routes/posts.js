@@ -1,7 +1,7 @@
 const { formatSuccess, formatError } = require('../utils/respFormat');
-const router = require('express').Router();
-
 const db = require('../utils/database')
+
+const router = require('express').Router();
 
 // sample request
 // localhost:3000/post?id=1
@@ -59,10 +59,10 @@ function deletePost(request, response) {
     db.deletePost(post_id);
 };
 
-module.exports = {
-    getPost,
-    getAllPosts,
-    addPost,
-    updatePost,
-    deletePost
-}
+router.get('/', getPost);
+router.get('/all', getAllPosts);
+router.post('/', addPost);
+router.update('/', updatePost);
+router.delete('/', deletePost);
+
+module.exports = router;
