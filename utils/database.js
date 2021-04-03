@@ -100,8 +100,16 @@ async function deletePost(post_id) {
     return await queryDB("DELETE FROM post WHERE post_id = $1", [post_id], RESPONSE_TYPE.NONE);
 }
 
+async function getStat(endpoint, method) {
+    return await queryDB("SELECT requests FROM stats WHERE endpoint = $1 AND method = $2;", [endpoint, method], responeType = RESPONSE_TYPE.SINGLE);
+}
+
 async function getStats() {
-    return await queryDB("SELECT * FROM stats", responeType = RESPONSE_TYPE.MANY);
+    return await queryDB("SELECT * FROM stats;", [], responeType = RESPONSE_TYPE.MANY);
+}
+
+async function setStat(endpoint, method, count) {
+    return await queryDB("UPDATE stats SET requests = $1 WHERE endpoint = $2 AND method = $3;", [count, endpoint, method], responeType = RESPONSE_TYPE.NONE);
 }
 
 module.exports = {
@@ -117,5 +125,7 @@ module.exports = {
     createPost,
     updatePost,
     deletePost,
-    getStats
+    getStat,
+    getStats,
+    setStat
 }

@@ -14,14 +14,15 @@ function checkAuthToken(token) {
 
 function authorize(adminOnly = false) {
     return async function(req, res, next) {
-        const auth = await checkAuthToken(req.get('authToken'))
-        req.user = auth
-        if (auth) {
+        const decodeToken = await checkAuthToken(req.get('authToken'))
+        if (decodeToken) {
             console.info(`Valid auth token from ${req.connection.remoteAddress}`)
+
+            req.user = await db.getUser(decodeToken.email);
 
             if (adminOnly && !req.user.is_admin) {
                 console.info(`Invalid auth level from ${req.connection.remoteAddress}`)
-                return res.status(400).json(formatError("Invalid auth token"))
+                return res.status(400).json(formatError("Invalid auth level"))
             }
 
             // Store full user object for easier use
