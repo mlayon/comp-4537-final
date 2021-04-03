@@ -51,6 +51,7 @@ INSERT INTO comment (content, user_id, post_id) VALUES('freshlice is better', 3,
 INSERT INTO comment (content, user_id, post_id) VALUES('cats are better! purr', 2, 2);
 
 
+INSERT INTO stats (method, endpoint) VALUES('GET', '/');
 INSERT INTO stats (method, endpoint) VALUES('GET', '/comment/id');
 INSERT INTO stats (method, endpoint) VALUES('GET', '/post/id');
 INSERT INTO stats (method, endpoint) VALUES('GET', '/post/all');
