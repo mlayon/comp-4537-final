@@ -1,5 +1,6 @@
 function recordEndpointStats(req, res, next) {
-    console.log('Record data for', req.baseUrl, req.method);
+    console.log('Record stats!');
+    next();
 }
 
 module.exports = recordEndpointStats;

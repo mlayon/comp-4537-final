@@ -1,9 +1,9 @@
 function formatSuccess(messageData) {
-    return { status: 'success', data: messageData }
+    return { status: 'success', data: messageData ? messageData : null }
 }
 
-function formatError(data) {
-    return { status: 'error', data: messageData }
+function formatError(messageData) {
+    return { status: 'error', data: messageData ? messageData : null }
 }
 
 module.exports = {

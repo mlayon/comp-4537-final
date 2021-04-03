@@ -26,19 +26,23 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get("/", (req, res) => {
-    res.send("Hello World!");
+app.get("/", function(req, res) {
+    return res.status(200).send("Hello World!");
 });
 
 // All endpoints are optimistic of the data they receive. If data validation is required, a module
 // such a joi could be used.
 
+// TODO: add versioning to the path. 
+
 app.use("/login", loginRouter);
-app.use(authorize);
+app.use(authorize(false));
 
 app.use("/account", accountRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
+
+app.use(authorize(true));
 app.use("/stats", statsRouter);
 
 app.listen(port, () => {
