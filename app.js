@@ -21,7 +21,7 @@ app.use(statsRecorder);
 // TODO: Change to allow access only from known forum url
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authToken");
     res.header("Access-Control-Allow-Methods", "*");
     next();
 });

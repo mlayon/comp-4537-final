@@ -1,23 +1,13 @@
-const xhttp = new XMLHttpRequest();
-const path = "http://localhost:3000";
-var count = 0; // keeps track of total # of quotes
-
-// makes get request for getting all quotes
-let getAll = function(){
-    xhttp.onreadystatechange = function (){
-    	if (this.readyState == 4 && this.status == 200) {
-		    console.log(this.responseText);
-		    let arr = JSON.parse(this.responseText);
-	    	console.log(arr);
-
-    		for(let i = 0; i < arr.length; i++) {
-                render(arr[i]);
-     		}
-    	}
+let getAll = function() {
+    try {
+        let resp = ajaxRequest(METHOD.GET, '/stats');
+    } catch (error) {
+        alert(error['data']);
     }
-	
-    xhttp.open("GET", path + "/stats", true);
-    xhttp.send();
+
+    for (let i = 0; i < arr.length; i++) {
+        render(resp['data'][i]);
+    }
 }
 
 // renders dom elements for each endpoint stat
