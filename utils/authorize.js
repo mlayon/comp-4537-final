@@ -5,7 +5,7 @@ const { formatError } = require('../utils/respFormat');
 
 function checkAuthToken(token) {
     return new Promise((resolve, reject) => {
-        jwt.verify(token, process.env.token_secret, (err, decode) => {
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, decode) => {
             if (err) resolve(null)
             else resolve(decode)
         })

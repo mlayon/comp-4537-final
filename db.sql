@@ -39,13 +39,3 @@ CREATE TABLE stats (
   endpoint VARCHAR ( 255 ) NOT NULL,
   requests INT DEFAULT 0
 );
-
-INSERT INTO account (username, password, email, is_admin) VALUES('admin','password','admin@email.com', 't');
-INSERT INTO account (username, password, email) VALUES('johndoe','password','johndoe@email.com');
-INSERT INTO account (username, password, email) VALUES('pparker','password','pparker@email.com');
-
-INSERT INTO post (post_date, title, topic, content, user_id) VALUES('2020-04-22 19:10:25','best pizza in vancouver', 'pizza', 'papa johns has the best pizza', 2);
-INSERT INTO post (post_date, title, topic, content, user_id) VALUES('2021-01-22 12:30:00','dogs or cats', 'pets', 'dogs are honestly better but prove me wrong', 3);
-
-INSERT INTO comment (content, user_id, post_id) VALUES('freshlice is better', 3, 1);
-INSERT INTO comment (content, user_id, post_id) VALUES('cats are better! purr', 2, 2);
