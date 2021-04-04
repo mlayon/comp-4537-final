@@ -4,7 +4,7 @@
 <html>
 
 <head>
-    <title>Admin Page</title>
+    <title>Post</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +14,29 @@
 </head>
 
 <body>
-    <h1>Admin Page</h1>
+    <h1>Post</h1>
     <div id="main" class="mainWidth"></div>
-    <table id="stats-table">
+    <div>
+        <h2 style="display: inline;" id=topic>id=topic>Topic</h2>
+        <h2 style="display: inline;">:</h2>
+        <h3 style="display: inline;" id=title>Title</h3>
+    </div>
+    <div id=content>Content</div>
+
+    <table id="comments-table">
         <tr>
-            <td>Method</td>
-            <td>Endpoint</td>
-            <td>Requests</td>
+            <td>
+                <h4>Comments:</h4>
+            </td>
         </tr>
     </table>
     <br />
+
     <a href="./index.html">Go back to index page</a>
 </body>
 
 <script src="./js/ajax.js"></script>
 <script src="./js/forumAPI.js"></script>
-<script src="./js/admin.js"></script>
+<script src="./js/post.js"></script>
 
 </html>

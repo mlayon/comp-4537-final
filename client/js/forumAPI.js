@@ -15,7 +15,7 @@ async function login(email, password) {
         password: password,
     };
 
-    let resp = apiCall(METHOD.GET, '/login', data);
+    let resp = apiCall(METHOD.POST, '/login', data);
     if (resp['status'] === 'success')
         window.localStorage.setItem('jwt', resp['data']);
     return resp;

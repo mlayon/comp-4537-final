@@ -1,16 +1,11 @@
-async function getAll() {
-    let resp;
-    try {
-        resp = await ajaxRequest(METHOD.GET, '/stats');
-    } catch (error) {
-        alert(error);
-    }
+async function getAllStats() {
+    let resp = await getEndpointStats();
 
-    console.log(resp);
+    if (resp['status'] !== 'success')
+        return alert(resp['data']);
 
-    for (let stat of resp['data']) {
+    for (let stat of resp['data'])
         render(stat)
-    }
 }
 
 // renders dom elements for each endpoint stat
@@ -39,4 +34,4 @@ let render = function(obj) {
 
 }
 
-getAll();
+getAllStats();
