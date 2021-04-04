@@ -12,12 +12,12 @@ const RESPONSE_TYPE = {
 
 const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    ssl: false
+    // ssl: false
 
     // Original ssl connection settings. Might be needed for hosting on heroku?
-    // ssl: {
-    //     rejectUnauthorized: false
-    // }
+    ssl: {
+        rejectUnauthorized: false
+    }
 })
 
 // TODO: Check that data entries are successful
