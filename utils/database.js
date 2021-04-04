@@ -1,5 +1,6 @@
 const { Pool } = require('pg')
 
+const platform = process.env.PLATFORM;
 const isProduction = process.env.NODE_ENV === 'production'
 const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
 console.log(connectionString);
@@ -10,15 +11,13 @@ const RESPONSE_TYPE = {
     MANY: 'MANY'
 }
 
+const herokuSSLConfig = { rejectUnauthorized: false };
+const localHostSSLConfig = false;
+
 const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
-    ssl: false
-
-    // Original ssl connection settings. Required for Heroku hosting.
-    // ssl: {
-    //     rejectUnauthorized: false
-    // }
-})
+    ssl: platform === 'heroku' ? herokuSSLConfig : localHostSSLConfig
+});
 
 // TODO: Check that data entries are successful
 
