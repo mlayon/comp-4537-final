@@ -14,7 +14,7 @@ const pool = new Pool({
     connectionString: isProduction ? process.env.DATABASE_URL : connectionString,
     // ssl: false
 
-    // Original ssl connection settings. Might be needed for hosting on heroku?
+    // Original ssl connection settings. Required for Heroku hosting.
     ssl: {
         rejectUnauthorized: false
     }

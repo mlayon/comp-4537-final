@@ -1,12 +1,15 @@
-let getAll = function() {
+async function getAll() {
+    let resp;
     try {
-        let resp = ajaxRequest(METHOD.GET, '/stats');
+        resp = await ajaxRequest(METHOD.GET, '/stats');
     } catch (error) {
-        alert(error['data']);
+        alert(error);
     }
 
-    for (let i = 0; i < arr.length; i++) {
-        render(resp['data'][i]);
+    console.log(resp);
+
+    for (let stat of resp['data']) {
+        render(stat)
     }
 }
 

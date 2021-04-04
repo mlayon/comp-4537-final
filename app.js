@@ -11,9 +11,12 @@ const postRouter = require('./routes/posts');
 const commentRouter = require('./routes/comments');
 const statsRouter = require('./routes/stats');
 
+const cors = require('cors');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(statsRecorder);

@@ -7,15 +7,13 @@ const METHOD = {
     DELETE: "DELETE"
 }
 
-let jwt;
-
 function ajaxRequest(method, path, data = null) {
     return new Promise((resolve, reject) => {
         let requestData = {
             url: API_BASE_URL + path,
             type: method,
             headers: {
-                "authToken": jwt
+                "authToken": window.localStorage.getItem('jwt')
             },
             dataType: 'json',
             contentType: 'application/json',

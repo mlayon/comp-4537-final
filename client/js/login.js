@@ -10,8 +10,8 @@ $('#submit').click(async function(event) {
     let resp
     try {
         resp = await ajaxRequest(METHOD.POST, '/login', data)
-        jwt = resp['data'];
-        window.location = '/stats';
+        window.localStorage.setItem('jwt', resp['data']);
+        window.location = './admin.html';
     } catch (error) {
         resp = error;
         alert(resp['data']);
