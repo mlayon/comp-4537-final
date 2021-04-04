@@ -1,6 +1,16 @@
 const API_BASE_URL = "https://final-4537.herokuapp.com";
 // const API_BASE_URL = "http://127.0.0.1:3000";
 
+
+// Not the best spot, but this a common module. Should be moved to a different file or such.
+function checkIfLoggedIn() {
+    let tokens = window.location.toString().split('/');
+    let location = tokens.pop();
+
+    if (location === 'login' && !window.localStorage.getItem('jwt'))
+        window.location = './login.html';
+}
+
 const METHOD = {
     GET: "GET",
     POST: "POST",
@@ -33,3 +43,5 @@ function ajaxRequest(method, path, data = null) {
         $.ajax(requestData);
     })
 }
+
+checkIfLoggedIn();

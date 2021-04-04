@@ -6,6 +6,11 @@ async function loadComments() {
     let post = await getPost(postId);
     let comments = await getPostComments(postId);
 
+    if (post['status'] !== 'success') {
+        alert(post['data']);
+        return window.location = './login.html'
+    }
+
     renderPost(post['data']);
 
     for (let comment of comments['data'])

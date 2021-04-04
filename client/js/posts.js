@@ -1,8 +1,10 @@
 async function getPosts() {
     let resp = await getAllPosts();
 
-    if (resp['status'] !== 'success')
-        return alert(resp['data']);
+    if (resp['status'] !== 'success') {
+        alert(resp['data']);
+        return window.location = './login.html'
+    }
 
     for (let post of resp['data'])
         renderPosts(post)
@@ -26,7 +28,7 @@ function renderPosts(obj) {
 
     td_button.innerHTML = 'comments';
     td_button.onclick = event => {
-        window.location = '/post.html?id=' + obj.post_id;
+        window.location = './post.html?id=' + obj.post_id;
     }
 
     // appending elements
@@ -40,8 +42,18 @@ function renderPosts(obj) {
 
 }
 
-function renderComments(obj) {
+function configureButtons() {
+    $('#logoutButton').click(function() {
+        console.log("logout click");
+        logout();
+        window.location = './login.html'
+    })
 
+    $('#adminButton').click(function() {
+        window.location = './admin.html'
+    })
 }
 
+
+configureButtons();
 getPosts();

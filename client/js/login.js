@@ -7,7 +7,7 @@ $('#submit').click(async function(event) {
     try {
         let resp = await login(email, password);
         if (resp['status'] === 'success')
-            window.location = './admin.html';
+            window.location = './index.html';
         else
             alert(resp['data']);
 

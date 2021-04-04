@@ -1,8 +1,10 @@
 async function getAllStats() {
     let resp = await getEndpointStats();
 
-    if (resp['status'] !== 'success')
-        return alert(resp['data']);
+    if (resp['status'] !== 'success') {
+        alert(resp['data']);
+        window.location = './index.html';
+    }
 
     for (let stat of resp['data'])
         render(stat)
