@@ -1,19 +1,18 @@
 // Login handler
 $('#submit').click(async function(event) {
     event.preventDefault();
+    let email = $('#email').val();
+    let password = $('#pass').val();
 
-    let data = {
-        email: $('#email').val(),
-        password: $('#pass').val(),
-    }
-
-    let resp
     try {
-        resp = await ajaxRequest(METHOD.POST, '/login', data)
-        window.localStorage.setItem('jwt', resp['data']);
-        window.location = './admin.html';
+        let resp = await login(email, password);
+        if (resp['status'] === 'success')
+            window.location = './admin.html';
+        else
+            alert(resp['data']);
+
     } catch (error) {
-        resp = error;
+        let resp = error;
         alert(resp['data']);
     }
 });
