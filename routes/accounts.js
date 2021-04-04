@@ -22,6 +22,10 @@ async function getAccount(req, resp) {
 async function addAccount(req, resp) {
     let user = _.pick(req.body, ['username', 'password', 'email']);
 
+    let usernameTaken = await db.getUserByUsername(user.username);
+    if (usernameTaken)
+        return resp.status(409).json(formatError("Username is taken."))
+
     let emailTaken = await db.getUser(user.email);
     if (emailTaken)
         return resp.status(409).json(formatError("Email is taken."))

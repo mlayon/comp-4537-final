@@ -25,7 +25,6 @@ async function recordEndpointStats(req, res, next) {
 
     // Increment count and push to db
     counts[index]++;
-    console.log(counts);
     db.setStat(...index, counts[index])
 
     next();

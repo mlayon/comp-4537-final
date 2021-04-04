@@ -59,8 +59,16 @@ async function getUser(email) {
     return await queryDB("SELECT * FROM account WHERE email = $1", [email], RESPONSE_TYPE.SINGLE);
 }
 
+async function getUserByUsername(username) {
+    return await queryDB("SELECT * FROM account WHERE username = $1", [username], RESPONSE_TYPE.SINGLE);
+}
+
 async function createUser(username, password, email) {
     return await queryDB("INSERT INTO account (username, password, email) VALUES ($1, $2, $3)", [username, password, email], RESPONSE_TYPE.NONE);
+}
+
+async function getPostComments(post_id) {
+    return await queryDB("SELECT * FROM comment WHERE post_id = $1", [post_id], RESPONSE_TYPE.MANY);
 }
 
 async function getComment(comment_id) {
@@ -84,7 +92,7 @@ async function getPost(post_id) {
 }
 
 async function getAllPosts() {
-    return await queryDB("SELECT * FROM post", responseType = RESPONSE_TYPE.MANY);
+    return await queryDB("SELECT * FROM post", [], RESPONSE_TYPE.MANY);
 }
 
 async function createPost(post_date, title, topic, content, user_id) {
@@ -119,8 +127,10 @@ async function setStat(endpoint, method, count) {
 module.exports = {
     getUsers,
     getUser,
+    getUserByUsername,
     createUser,
     getPost,
+    getPostComments,
     getComment,
     addComment,
     updateComment,
