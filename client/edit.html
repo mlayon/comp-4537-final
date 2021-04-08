@@ -2,7 +2,7 @@
 <html lang="en">
 	<html>
 		<head>
-			<title>Post</title>
+			<title>Edit Post</title>
 			<meta charset="UTF-8" />
 			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,15 +17,14 @@
 		</head>
 
 		<body>
-			<h1>Post</h1>
+			<h1>Edit Post</h1>
 			<div id="main" class="mainWidth"></div>
 			<div id="post-div">
 				<div>
-					<h2 style="display: inline" id="topic">id=topic>Topic</h2>
-					<h2 style="display: inline">:</h2>
-					<h3 style="display: inline" id="title">Title</h3>
+					<textarea id="topic">id=topic>Topic</textarea>
+					<textarea style="display: inline" id="title">Title</textarea>
 				</div>
-				<div id="content">Content</div>
+				<textarea id="content">Content</textarea>
 			</div>
 
 			<table id="comments-table">
@@ -36,9 +35,8 @@
 				</tr>
 			</table>
 			<br />
-			<button id="editButton">Edit Post</button>
-			<button id="deleteButton">Delete Post</button>
-			<a href="./index.html">Back to home</a>
+			<button id="saveButton">Save Post</button>
+			<a href="./index.html">Exit without saving</a>
 		</body>
 
 		<script src="./js/ajax.js"></script>
