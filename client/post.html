@@ -21,12 +21,17 @@
 			<div id="main" class="mainWidth"></div>
 			<div id="post-div">
 				<div>
-					<h2 style="display: inline" id="topic">id=topic>Topic</h2>
-					<h2 style="display: inline">:</h2>
-					<h3 style="display: inline" id="title">Title</h3>
+					<h3 id="title">Title</h3>
+					<div style="display: inline">Topic: </div>
+					<div style="display: inline" id="topic">Topic</div>
 				</div>
 				<div id="content">Content</div>
 			</div>
+			<button id="editButton">Edit Post</button>
+			<button id="deleteButton">Delete Post</button>
+
+			<textarea id="comment"  placeholder="What are your thoughts?"></textarea>
+			<button id="addComment">Add Comment</button>
 
 			<table id="comments-table">
 				<tr>
@@ -36,8 +41,6 @@
 				</tr>
 			</table>
 			<br />
-			<button id="editButton">Edit Post</button>
-			<button id="deleteButton">Delete Post</button>
 			<a href="./index.html">Back to home</a>
 		</body>
 
