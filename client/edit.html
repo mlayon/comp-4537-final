@@ -2,7 +2,7 @@
 <html lang="en">
 	<html>
 		<head>
-			<title>Post</title>
+			<title>Edit Post</title>
 			<meta charset="UTF-8" />
 			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,35 +17,25 @@
 		</head>
 
 		<body>
-			<h1>Post</h1>
+			<h1>Edit Post</h1>
 			<div id="main" class="mainWidth"></div>
 			<div id="post-div">
 				<div>
-					<h3 id="title">Title</h3>
-					<div style="display: inline">Topic: </div>
-					<div style="display: inline" id="topic">Topic</div>
+					<label for="title">Title</label>
+					<textarea id="title">Title</textarea>
+					<label for="topic">Topic</label>
+					<textarea id="topic">Topic</textarea>
 				</div>
-				<div id="content">Content</div>
+				<label for="content">Content</label>
+				<textarea id="content">Content</textarea>
 			</div>
-			<button id="editButton">Edit Post</button>
-			<button id="deleteButton">Delete Post</button>
-
-			<textarea id="comment"  placeholder="What are your thoughts?"></textarea>
-			<button id="addComment">Add Comment</button>
-
-			<table id="comments-table">
-				<tr>
-					<td>
-						<h4>Comments:</h4>
-					</td>
-				</tr>
-			</table>
 			<br />
-			<a href="./index.html">Back to home</a>
+			<button id="saveButton">Save Post</button>
+			<a href="./index.html">Exit without saving</a>
 		</body>
 
 		<script src="./js/ajax.js"></script>
 		<script src="./js/forumAPI.js"></script>
-		<script src="./js/post.js"></script>
+		<script src="./js/edit.js"></script>
 	</html>
 </html>

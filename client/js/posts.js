@@ -26,7 +26,7 @@ function renderPosts(obj) {
     td_topic.innerHTML = obj.topic;
     td_content.innerHTML = obj.content;
 
-    td_button.innerHTML = 'comments';
+    td_button.innerHTML = 'View Post';
     td_button.onclick = event => {
         window.location = './post.html?id=' + obj.post_id;
     }
@@ -43,6 +43,11 @@ function renderPosts(obj) {
 }
 
 function configureButtons() {
+    $('#addPost').click(function() {
+        console.log("add new post");
+        window.location = "./edit.html?id=new";
+    })
+
     $('#logoutButton').click(function() {
         console.log("logout click");
         logout();

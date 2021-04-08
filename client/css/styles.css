@@ -10,6 +10,15 @@ textarea {
     width: 100%;
 }
 
+.comments{
+    border: 0 none #FFF;
+    overflow: hidden;
+    resize: none;
+}.comments:focus{
+    border: black;
+    resize: none;
+}
+
 .mainWidth {
     width: 30em;
 }

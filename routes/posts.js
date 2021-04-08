@@ -58,7 +58,7 @@ async function updatePost(req, resp) {
 // localhost:3000/post?id=1
 async function deletePost(req, resp) {
     let post_id = req.query.id;
-    const originalPost = await db.getPost(newPost.post_id);
+    const originalPost = await db.getPost(post_id);
 
     if (!req.user.is_admin && req.user.user_id != originalPost.user_id)
         return resp.status(401).json(formatError("This is not your post."));
