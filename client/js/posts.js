@@ -43,6 +43,11 @@ function renderPosts(obj) {
 }
 
 function configureButtons() {
+    $('#addPost').click(function() {
+        console.log("add new post");
+        window.location = "./edit.html?id=new";
+    })
+
     $('#logoutButton').click(function() {
         console.log("logout click");
         logout();
