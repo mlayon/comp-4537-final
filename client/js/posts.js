@@ -26,7 +26,7 @@ function renderPosts(obj) {
     td_topic.innerHTML = obj.topic;
     td_content.innerHTML = obj.content;
 
-    td_button.innerHTML = 'comments';
+    td_button.innerHTML = 'View Post';
     td_button.onclick = event => {
         window.location = './post.html?id=' + obj.post_id;
     }

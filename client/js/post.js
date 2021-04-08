@@ -36,6 +36,7 @@ function renderComment(comment) {
     let td_edit = document.createElement("td");
     let td_delete = document.createElement("td");
 
+    // creating buttons
     let button_edit = document.createElement("button");
     let button_delete = document.createElement("button");
     button_edit.classList.add("editComment");
@@ -52,11 +53,17 @@ function renderComment(comment) {
     td_edit.appendChild(button_edit);
     td_delete.appendChild(button_delete);
 
+    let textarea = document.createElement("textarea");
+    textarea.classList.add("comments");
+    textarea.id = "comment" + commentId;
+    textarea.innerHTML = comment.content;
+    textarea.readOnly = true;
+
+    td_content.appendChild(textarea);
 	row.id = commentId;
-	td_content.innerHTML = comment.content;
 
 	// appending elements
-	row.appendChild(td_content);
+    row.appendChild(td_content);
     row.appendChild(td_edit);
     row.appendChild(td_delete);
 
@@ -86,19 +93,11 @@ function configurePostButtons() {
 		alert("Post updated");
 		return (window.location = "./post.html?id=" + postId);
 	});
-
-    $("#addComment").click(function () {
-		let comment = document.getElementById("comment").value;
-        if (comment) {
-            createComment(comment, postId);
-		    alert("Comment added");
-        }
-        return (window.location = "./post.html?id=" + postId);
-	});
     
 }
 
 function configureCommentButtons() {
+    let readOnly = true; // for toggling readonly on each comment's textarea 
     $("#addComment").click(function () {
 		let comment = document.getElementById("comment").value;
         if (comment) {
@@ -108,12 +107,31 @@ function configureCommentButtons() {
         return (window.location = "./post.html?id=" + postId);
 	});
 
+    $(document).on('click', '.editComment', function() {
+        let commentId = this.id;
+
+        // if comment textarea is already editable, it's ready to be updated in db
+        if (readOnly === false) {
+            let content = $('#comment'+commentId).val();
+            updateComment(content, commentId);
+		    alert("Comment updated");
+		    return (window.location = "./post.html?id=" + postId);
+        }
+        readOnly = !readOnly
+        $('#comment'+commentId).attr('readonly', readOnly);
+        alert("Comment is now editable");
+
+        console.log(content);
+    });
+
+    // for deleting comments
     $(document).on('click', '.deleteComment', function() { 
         let commentId = this.id;
         deleteComment(commentId);
 		alert("Comment deleted");
 		return (window.location = "./post.html?id=" + postId);
     });
+    
 
 
 }
