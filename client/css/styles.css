@@ -7,9 +7,20 @@ body {
 	background-color: #2f3340;
 	color: #d7dce8;
 }
+::-webkit-input-placeholder {
+	/* Chrome/Opera/Safari */
+	font-family: "Fraunces", serif;
+    color: #87b4c5;
+}
 
 textarea {
 	width: 100%;
+    background-color: #4a5264;
+    color: white
+}
+
+textarea:focus, input:focus {
+    color: white
 }
 
 .comments {
@@ -28,4 +39,18 @@ textarea {
 
 .buttons button {
 	margin-right: 3em;
+}
+
+a {
+    color: #87978c;
+}
+
+a:hover {
+    color: #af8bad;
+    text-decoration: none;
+}
+
+button {
+    background-color: #87b4c5;
+    color: #2f3340;
 }

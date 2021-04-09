@@ -21,7 +21,7 @@ const renderPost = (post) => {
 	console.log("Post", post);
 
 	document.getElementById("title").innerHTML = post.title;
-	document.getElementById("topic").innerHTML = post.topic;
+	document.getElementById("topic").innerHTML = "Topic: " + post.topic;
 	document.getElementById("content").innerHTML = post.content;
 };
 

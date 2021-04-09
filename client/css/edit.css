@@ -1,0 +1,18 @@
+body {
+	padding: 1em;
+	padding-left: 1em;
+	margin: 1em 1em;
+}
+
+textarea {
+	background-color: #4a5264;
+	color: white;
+}
+
+#welcome {
+	font-size: 42pt;
+}
+
+label {
+	font-size: 20pt;
+}
