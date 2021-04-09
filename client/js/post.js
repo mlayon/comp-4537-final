@@ -44,7 +44,7 @@ const renderComment = (comment) => {
 	button_edit.id = commentId;
 	button_delete.id = commentId;
 
-    // creating text nodes
+	// creating text nodes
 	let node_edit = document.createTextNode("Edit Comment");
 	let node_delete = document.createTextNode("Delete Comment");
 
@@ -54,7 +54,7 @@ const renderComment = (comment) => {
 	td_edit.appendChild(button_edit);
 	td_delete.appendChild(button_delete);
 
-    // creating textarea
+	// creating textarea
 	let textarea = document.createElement("textarea");
 	textarea.classList.add("comments");
 	textarea.id = "comment" + commentId;
@@ -74,13 +74,12 @@ const renderComment = (comment) => {
 
 // configure post-related buttons
 const configurePostButtons = () => {
-    
-    // for editing posts
+	// for editing posts
 	$("#editButton").click(() => {
 		window.location = "./edit.html?id=" + postId;
 	});
 
-    // for deleting posts
+	// for deleting posts
 	$("#deleteButton").click(() => {
 		console.log("postid: ", postId);
 		deletePost(postId);
@@ -92,33 +91,50 @@ const configurePostButtons = () => {
 // configure comment-related buttons
 const configureCommentButtons = () => {
 	let readOnly = true; // for toggling readonly on each comment's textarea
-	
-    // for adding new comments
-    $("#addComment").click(() => {
+
+	// for adding new comments
+	$("#addComment").click(() => {
 		let comment = document.getElementById("comment").value;
-		if (comment) {
+		if (isAllCorrectLength(comment)) {
 			createComment(comment, postId);
 			alert("Comment added");
+			return (window.location = "./post.html?id=" + postId);
 		}
-		return (window.location = "./post.html?id=" + postId);
+		alert(
+			"The comment has to be between " +
+				MIN_LENGTH +
+				" to " +
+				MAX_LENGTH +
+				" characters long."
+		);
 	});
 
-    // for editing comments
+	// for editing comments
 	$(document).on("click", ".editComment", (e) => {
 		let commentId = e.currentTarget.id;
-        console.log(commentId);
+		console.log(commentId);
 
 		// if comment textarea is already editable, it's ready to be updated in db
 		if (readOnly === false) {
-			let content = $("#comment" + commentId).val();
-			updateComment(content, commentId);
-			alert("Comment updated");
-			return (window.location = "./post.html?id=" + postId);
+			let comment = $("#comment" + commentId).val();
+			if (isAllCorrectLength(comment)) {
+				updateComment(comment, commentId);
+				alert("Comment updated");
+				return (window.location = "./post.html?id=" + postId);
+			} else {
+				alert(
+					"The comment has to be between " +
+						MIN_LENGTH +
+						" to " +
+						MAX_LENGTH +
+						" characters long."
+				);
+			}
+		} else {
+			readOnly = !readOnly;
+			$("#comment" + commentId).attr("readonly", readOnly);
+			alert("Comment is now editable");
 		}
-		readOnly = !readOnly;
-		$("#comment" + commentId).attr("readonly", readOnly);
-		alert("Comment is now editable");
-
 	});
 
 	// for deleting comments
