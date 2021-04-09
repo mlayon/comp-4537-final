@@ -1,7 +1,7 @@
 const url = new URL(window.location).searchParams;
 const postId = url.get("id");
 
-async function loadComments() {
+const loadComments = async () => {
 	console.log(window.location);
 
 	let post = await getPost(postId);
@@ -15,18 +15,18 @@ async function loadComments() {
 	renderPost(post["data"]);
 
 	for (let comment of comments["data"]) renderComment(comment);
-}
+};
 
-function renderPost(post) {
+const renderPost = (post) => {
 	console.log("Post", post);
 
 	document.getElementById("title").innerHTML = post.title;
 	document.getElementById("topic").innerHTML = post.topic;
 	document.getElementById("content").innerHTML = post.content;
-}
+};
 
 // renders dom elements for each post
-function renderComment(comment) {
+const renderComment = (comment) => {
 	console.log("Comments", comment);
 	let commentId = comment.comment_id;
 
@@ -44,6 +44,7 @@ function renderComment(comment) {
 	button_edit.id = commentId;
 	button_delete.id = commentId;
 
+    // creating text nodes
 	let node_edit = document.createTextNode("Edit Comment");
 	let node_delete = document.createTextNode("Delete Comment");
 
@@ -53,6 +54,7 @@ function renderComment(comment) {
 	td_edit.appendChild(button_edit);
 	td_delete.appendChild(button_delete);
 
+    // creating textarea
 	let textarea = document.createElement("textarea");
 	textarea.classList.add("comments");
 	textarea.id = "comment" + commentId;
@@ -68,24 +70,31 @@ function renderComment(comment) {
 	row.appendChild(td_delete);
 
 	document.getElementById("comments-table").appendChild(row);
-}
+};
 
-function configurePostButtons() {
-	$("#editButton").click(function () {
+// configure post-related buttons
+const configurePostButtons = () => {
+    
+    // for editing posts
+	$("#editButton").click(() => {
 		window.location = "./edit.html?id=" + postId;
 	});
 
-	$("#deleteButton").click(function () {
+    // for deleting posts
+	$("#deleteButton").click(() => {
 		console.log("postid: ", postId);
 		deletePost(postId);
 		alert("Post deleted");
 		return (window.location = "./index.html");
 	});
-}
+};
 
-function configureCommentButtons() {
+// configure comment-related buttons
+const configureCommentButtons = () => {
 	let readOnly = true; // for toggling readonly on each comment's textarea
-	$("#addComment").click(function () {
+	
+    // for adding new comments
+    $("#addComment").click(() => {
 		let comment = document.getElementById("comment").value;
 		if (comment) {
 			createComment(comment, postId);
@@ -94,8 +103,10 @@ function configureCommentButtons() {
 		return (window.location = "./post.html?id=" + postId);
 	});
 
-	$(document).on("click", ".editComment", function () {
-		let commentId = this.id;
+    // for editing comments
+	$(document).on("click", ".editComment", (e) => {
+		let commentId = e.currentTarget.id;
+        console.log(commentId);
 
 		// if comment textarea is already editable, it's ready to be updated in db
 		if (readOnly === false) {
@@ -108,17 +119,16 @@ function configureCommentButtons() {
 		$("#comment" + commentId).attr("readonly", readOnly);
 		alert("Comment is now editable");
 
-		console.log(content);
 	});
 
 	// for deleting comments
-	$(document).on("click", ".deleteComment", function () {
-		let commentId = this.id;
+	$(document).on("click", ".deleteComment", (e) => {
+		let commentId = e.currentTarget.id;
 		deleteComment(commentId);
 		alert("Comment deleted");
 		return (window.location = "./post.html?id=" + postId);
 	});
-}
+};
 
 configurePostButtons();
 configureCommentButtons();

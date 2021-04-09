@@ -1,4 +1,4 @@
-async function getAllStats() {
+const getAllStats = async () => {
     let resp = await getEndpointStats();
 
     if (resp['status'] !== 'success') {
@@ -11,7 +11,7 @@ async function getAllStats() {
 }
 
 // renders dom elements for each endpoint stat
-let render = function(obj) {
+let render = (obj) => {
     let method = obj.method;
     let endpoint = obj.endpoint;
     let requests = obj.requests;

@@ -3,7 +3,7 @@ const API_BASE_URL = "http://127.0.0.1:3000";
 
 
 // Not the best spot, but this a common module. Should be moved to a different file or such.
-function checkIfLoggedIn() {
+const checkIfLoggedIn = () => {
     let tokens = window.location.toString().split('/');
     let location = tokens.pop();
 
@@ -18,7 +18,7 @@ const METHOD = {
     DELETE: "DELETE"
 }
 
-function ajaxRequest(method, path, data = null) {
+const ajaxRequest = (method, path, data = null) => {
     return new Promise((resolve, reject) => {
         let requestData = {
             url: API_BASE_URL + path,

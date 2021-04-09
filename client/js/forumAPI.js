@@ -1,4 +1,4 @@
-async function apiCall(method, url, data = null) {
+const apiCall = async (method, url, data = null) => {
     let resp;
     try {
         resp = await ajaxRequest(method, url, data);
@@ -9,7 +9,7 @@ async function apiCall(method, url, data = null) {
     return resp;
 }
 
-async function login(email, password) {
+const login = async (email, password) => {
     let data = {
         email: email,
         password: password,
@@ -21,52 +21,52 @@ async function login(email, password) {
     return resp;
 }
 
-function logout() {
+const logout = () => {
     window.localStorage.removeItem('jwt');
 }
 
-async function getEndpointStats() {
+const getEndpointStats = async () => {
     return await apiCall(METHOD.GET, '/stats');
 }
 
 // POSTS (As in forum posts)
-async function getPost(postId) {
+const getPost = async (postId) => {
     return await apiCall(METHOD.GET, `/post?id=${postId}`);
 }
-async function getAllPosts() {
+const getAllPosts = async () => {
     return await apiCall(METHOD.GET, '/post/all');
 }
-async function createPost(title, topic, content) {
+const createPost = async (title, topic, content) => {
     return await apiCall(METHOD.POST, '/post', {
         title: title,
         topic: topic,
         content: content,
     });
 }
-async function updatePost(title, topic, content, post_id) {
+const updatePost = async (title, topic, content, post_id) => {
     let data = { title: title, topic: topic, content: content, post_id: post_id };
     return await apiCall(METHOD.PUT, '/post', data);
 }
-async function deletePost(postId) {
+const deletePost = async (postId) => {
     return await apiCall(METHOD.DELETE, `/post?id=${postId}`);
 }
 
 // Comments (As in forum comments)
-async function getPostComments(postId) {
+const getPostComments = async (postId) => {
     return await apiCall(METHOD.GET, `/comment?id=${postId}`);
 }
-async function createComment(content, postId) {
+const createComment = async (content, postId) => {
     return await apiCall(METHOD.POST, '/comment', {
         content: content,
         post_id: postId,
     });
 }
-async function updateComment(content, comment_id) {
+const updateComment = async (content, comment_id) =>{
     return await apiCall(METHOD.PUT, '/comment', {
         content: content,
         comment_id: comment_id,
     });
 }
-async function deleteComment(comment_id) {
+const deleteComment = async (comment_id) => {
     return await apiCall(METHOD.DELETE, `/comment?id=${comment_id}`);
 }

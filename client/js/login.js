@@ -1,5 +1,5 @@
 // Login handler
-$('#submit').click(async function(event) {
+$('#submit').click(async (event) => {
     event.preventDefault();
     let email = $('#email').val();
     let password = $('#pass').val();

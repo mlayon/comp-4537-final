@@ -6,7 +6,7 @@ const emptyPost = {
 	content: "",
 };
 
-async function loadPost() {
+const loadPost = async () => {
 	console.log(window.location);
 
     // check if we're creating a new post
@@ -25,7 +25,7 @@ async function loadPost() {
 	}
 }
 
-function renderPost(post) {
+const renderPost = (post) => {
 	console.log("Post", post);
 
 	document.getElementById("title").innerHTML = post.title;
@@ -33,10 +33,10 @@ function renderPost(post) {
 	document.getElementById("content").innerHTML = post.content;
 }
 
-function configureButtons() {
+const configureButtons = () => {
 
 	// Save button for edit.html
-	$("#saveButton").click(function () {
+	$("#saveButton").click( () => {
 		let title = document.getElementById("title").value;
 		let topic = document.getElementById("topic").value;
 		let content = document.getElementById("content").value;

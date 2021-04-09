@@ -1,4 +1,4 @@
-async function getPosts() {
+const getPosts = async () => {
     let resp = await getAllPosts();
 
     if (resp['status'] !== 'success') {
@@ -11,7 +11,7 @@ async function getPosts() {
 }
 
 // renders dom elements for each post
-function renderPosts(obj) {
+const renderPosts = (obj) => {
     console.log("Posts", obj);
 
     // post related elements
@@ -42,7 +42,7 @@ function renderPosts(obj) {
 
 }
 
-function configureButtons() {
+const configureButtons = () => {
     $('#addPost').click(function() {
         console.log("add new post");
         window.location = "./edit.html?id=new";
