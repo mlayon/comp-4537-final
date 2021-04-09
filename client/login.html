@@ -6,19 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/login.css" />
     <title>Login</title>
 </head>
 
 <body>
+    <h1 id="welcome">Welcome to The Forum</h1>
     <form>
-        <div class="container">
+        <div class="container" id="loginform">
             <label for="email"><b>Email</b></label>
             <input type="text" placeholder="Enter email" name="email" id="email" required>
 
             <label for="pass"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="pass" id="pass" required>
+            <input type="password" placeholder="Enter password" name="pass" id="pass" required>
 
             <button id="submit">Login</button>
+        </div>
     </form>
 
 </body>

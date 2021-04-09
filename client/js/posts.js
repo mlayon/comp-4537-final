@@ -19,15 +19,26 @@ const renderPosts = (obj) => {
     let td_title = document.createElement("td");
     let td_topic = document.createElement("td");
     let td_content = document.createElement("td");
-    let td_button = document.createElement("button");
+    // let td_button = document.createElement("button");
 
+    row.classList.add("table-content"); 
     td_title.id = obj.post_id;
     td_title.innerHTML = obj.title;
-    td_topic.innerHTML = obj.topic;
-    td_content.innerHTML = obj.content;
+    td_title.classList.add("title"); 
 
-    td_button.innerHTML = 'View Post';
-    td_button.onclick = event => {
+    td_topic.innerHTML = "Topic: " + obj.topic;
+    td_topic.classList.add("topic"); 
+
+    td_content.innerHTML = obj.content;
+    td_content.classList.add("content"); 
+
+    // td_button.innerHTML = 'View Post';
+    // td_button.classList.add("view-button");   
+    // td_button.onclick = event => {
+    //     window.location = './post.html?id=' + obj.post_id;
+    // }
+
+    row.onclick = event => {
         window.location = './post.html?id=' + obj.post_id;
     }
 
@@ -35,10 +46,11 @@ const renderPosts = (obj) => {
     row.appendChild(td_title);
     row.appendChild(td_topic);
     row.appendChild(td_content);
-    row.appendChild(td_button);
+    // row.appendChild(td_button);
 
 
     document.getElementById("posts-table").appendChild(row);
+    // document.getElementById("posts-table").appendChild(td_button);
 
 }
 

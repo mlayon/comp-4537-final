@@ -1,29 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:ital@0;1&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap");
 body {
-    padding-left: 4%;
-    padding-bottom: 4%;
-    font-family: "Fraunces", serif;
+	padding-left: 4%;
+	padding-bottom: 4%;
+	font-family: "Fraunces", serif;
+	background-color: #2f3340;
+	color: #d7dce8;
 }
 
 textarea {
-    width: 100%;
+	width: 100%;
 }
 
-.comments{
-    border: 0 none #FFF;
-    overflow: hidden;
-    resize: none;
-}.comments:focus{
-    border: black;
-    resize: none;
+.comments {
+	border: 0 none #fff;
+	overflow: hidden;
+	resize: none;
+}
+.comments:focus {
+	border: black;
+	resize: none;
 }
 
 .mainWidth {
-    width: 30em;
+	width: 30em;
 }
 
-
 .buttons button {
-    margin-right: 3em;
+	margin-right: 3em;
 }

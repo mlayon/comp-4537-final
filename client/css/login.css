@@ -1,0 +1,26 @@
+::-webkit-input-placeholder {
+	/* Chrome/Opera/Safari */
+	font-family: "Fraunces", serif;
+}
+
+#welcome {
+	font-style: italic;
+	font-size: 42pt;
+}
+
+#loginform input {
+	padding: 0.9em;
+	margin: 1em 0;
+    width: 20em;
+    font-family: "Fraunces", serif;
+}
+
+#loginform label {
+	display: block;
+	font-size: 18pt;
+}
+
+#loginform button {
+	display: block;
+    font-family: "Fraunces", serif;
+}

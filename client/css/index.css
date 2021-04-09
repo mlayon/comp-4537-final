@@ -1,0 +1,45 @@
+body {
+	padding: 1em;
+	padding-left: 1em;
+	margin: 1em 1em;
+}
+
+.table-content {
+    border: 2px solid #464E63;
+    background-color: #3a3f50;
+    padding-bottom: 1em;
+    /* margin: 1em 0; */
+}
+
+.table-content:hover {
+    border: 2px solid #eee;
+    cursor: pointer;
+}
+
+.table-content td {
+	display: block;
+}
+
+.title {
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+.topic {
+    font-size: 11pt;
+    color: #87b4c5;
+}
+
+.content {
+    font-size: 13pt;
+    margin: 1em 0;
+}
+
+/* .view-button {
+	margin: 1em 0;
+	display: block;
+} */
+
+#welcome {
+    font-size: 42pt;
+}
