@@ -6,7 +6,7 @@ const _ = require("lodash");
 // sample req
 // localhost:3000/comment?id=1
 async function getComment(req, res) {
-    const postID = req.query.id;
+    const postID = req.query.postId;
     const comments = await db.getPostComments(postID);
 
     if (!comments || comments.length == 0)

@@ -65,7 +65,7 @@ const deletePost = async(postId) => {
 
 // Comments (As in forum comments)
 const getPostComments = async(postId) => {
-    return await apiCall(METHOD.GET, `/comment?id=${postId}`);
+    return await apiCall(METHOD.GET, `/comment?postId=${postId}`);
 }
 const createComment = async(content, postId) => {
     return await apiCall(METHOD.POST, '/comment', {
