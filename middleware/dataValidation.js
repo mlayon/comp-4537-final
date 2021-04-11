@@ -15,6 +15,7 @@ const addCommentSchema = Joi.object({
     content: Joi.string().min(1).max(250).required(),
     post_id: Joi.number().min(0).required(),
 });
+
 const updateCommentSchema = Joi.object({
     content: Joi.string().min(1).max(250).required(),
     comment_id: Joi.number().min(0).required(),
@@ -36,7 +37,7 @@ const schemas = {
     'PUT/post': updatePostSchema,
     'POST/comment': addCommentSchema,
     'PUT/comment': updateCommentSchema,
-    'POST/account': accountSchema,
+    'POST/register': accountSchema,
     'POST/login': loginSchema,
 }
 
