@@ -9,7 +9,7 @@ async function getComment(req, res) {
     const postID = req.query.id;
     const comments = await db.getPostComments(postID);
 
-    if (!comments)
+    if (!comments || comments.length == 0)
         return res
             .status(404)
             .json(formatError(`No comments found for post: ${postID}`));

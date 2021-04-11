@@ -32,7 +32,7 @@ async function getAllPosts(req, resp) {
 // }
 function addPost(req, resp) {
     let post = _.pick(req.body, ['title', 'topic', 'content']);
-    db.createPost(post.post_date, post.title, post.topic, post.content, req.user.user_id);
+    db.createPost(post.title, post.topic, post.content, req.user.user_id);
     resp.status(200).json(formatSuccess("Post created."))
 };
 

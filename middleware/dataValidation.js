@@ -1,15 +1,15 @@
 const Joi = require("joi");
 const { formatError } = require("../utils/respFormat");
 
-const postValidationObject = {
+const addPostValidationObject = {
     title: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(3).max(30).required(),
     topic: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(30).required(),
     content: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(250).required(),
 }
 const udpatePostValidationObject = { post_id: Joi.number().min(-1).required() };
 
-const addPostSchema = Joi.object(postValidationObject);
-const updatePostSchema = Joi.object(Object.assign(udpatePostValidationObject, postValidationObject));
+const addPostSchema = Joi.object(addPostValidationObject);
+const updatePostSchema = Joi.object(Object.assign(udpatePostValidationObject, addPostValidationObject));
 
 const addCommentSchema = Joi.object({
     content: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(250).required(),
@@ -22,7 +22,7 @@ const updateCommentSchema = Joi.object({
 
 const accountSchema = Joi.object({
     username: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().pattern(new RegExp("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]$")).min(3).max(30),
+    password: Joi.string().pattern(new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$")),
     email: Joi.string().email({ minDomainSegments: 2 }),
 });
 
@@ -31,6 +31,7 @@ const loginSchema = Joi.object({
     email: Joi.string().email({ minDomainSegments: 2 }),
 });
 
+// Attempts to use schema mapped to method + url, request will go through with no validation if not present
 const schemas = {
     'POST/post': addPostSchema,
     'PUT/post': updatePostSchema,
@@ -40,30 +41,41 @@ const schemas = {
     'POST/login': loginSchema,
 }
 
+// Custom error message will be used insted of the default Joi ones if found in this object. When a 
+// validation error occurs, the only the fields with invalid values will have the error message.
 const customErrorMessage = {
-    'POST/login': "Minimum eight characters, max thirty characters, at least one letter, one number, and one special character:",
+    'POST/login': {
+        username: "Must be a alphanumeric value with minimum three characters and a maximum of thirty characters",
+        password: "Minimum eight characters, max thirty characters, at least one letter, one number, and one special character",
+    },
+    'POST/account': {
+        username: "Must be a alphanumeric value with minimum three characters and a maximum of thirty characters",
+        password: "Minimum eight characters, max thirty characters, at least one letter, one number, and one special character",
+        email: "Must be a valid email address, for example: test@forum.com",
+    },
 }
 
 function dataValidator(req, res, next) {
-    const index = [req.method, req.originalUrl].join('');
+    const index = [req.method, req.path].join('');
 
     if (!(index in schemas)) {
         console.log("No schema found for given base url and method:", index);
         return next();
     }
 
-    const { error, value } = schemas[index].validate(req.body);
-
-    console.log(value);
+    const { error } = schemas[index].validate(req.body);
 
     if (error) {
         let message = error.details[0].message; // Just using the first details object for now
+        let errorPath = error.details[0].path;
 
         if (index in customErrorMessage)
-            message = customErrorMessage[index];
+            message = {
+                [errorPath]: customErrorMessage[index][errorPath]
+            };
 
-        console.log("Invalid data for", [req.method, req.originalUrl], message);
-        return res.status(400).send(formatError(message));
+        console.log("Invalid data for", [req.method, req.path], message);
+        return res.status(400).json(formatError(message));
     }
 
     next();

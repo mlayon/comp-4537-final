@@ -94,8 +94,8 @@ async function getAllPosts() {
     return await queryDB("SELECT * FROM post", [], RESPONSE_TYPE.MANY);
 }
 
-async function createPost(post_date, title, topic, content, user_id) {
-    return await queryDB("INSERT INTO post (post_date, title, topic, content, user_id) VALUES ($1, $2, $3, $4, $5)", [post_date, title, topic, content, user_id], RESPONSE_TYPE.NONE);
+async function createPost(title, topic, content, user_id) {
+    return await queryDB("INSERT INTO post (title, topic, content, user_id) VALUES ($1, $2, $3, $4)", [title, topic, content, user_id], RESPONSE_TYPE.NONE);
 }
 
 async function updatePost(title, topic, content, post_id) {
