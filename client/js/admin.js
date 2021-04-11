@@ -1,7 +1,7 @@
 const getAllStats = async() => {
     let resp = await getEndpointStats();
 
-    if (resp['status'] !== 'success') {
+    if (!resp['success']) {
         alert(resp['data']);
         return window.location = './index.html';
     }

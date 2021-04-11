@@ -7,14 +7,14 @@ const loadComments = async() => {
     let post = await getPost(postId);
     let comments = await getPostComments(postId);
 
-    if (post["status"] !== "success") {
+    if (!post['success']) {
         alert(post["data"]);
         return (window.location = "./login.html");
     }
 
     renderPost(post["data"]);
 
-    if (comments["status"] == "success")
+    if (comments['success'])
         for (let comment of comments["data"]) renderComment(comment);
 };
 
@@ -98,7 +98,7 @@ const configureCommentButtons = () => {
         let comment = document.getElementById("comment").value;
         if (isAllCorrectLength(comment)) {
             const resp = await createComment(comment, postId);
-            if (resp["status"] === "success") alert("Comment added");
+            if (resp['success']) alert("Comment added");
             else alert(resp["data"]);
 
             return (window.location = "./post.html?id=" + postId);
@@ -122,7 +122,7 @@ const configureCommentButtons = () => {
             let comment = $("#comment" + commentId).val();
             if (isAllCorrectLength(comment)) {
                 const resp = updateComment(comment, commentId);
-                if (resp["status"] === "success") alert("Comment updated");
+                if (resp['success']) alert("Comment updated");
                 else alert(resp["data"]);
                 return (window.location = "./post.html?id=" + postId);
             } else {
@@ -145,7 +145,7 @@ const configureCommentButtons = () => {
     $(document).on("click", ".deleteComment", (e) => {
         let commentId = e.currentTarget.id;
         const resp = deleteComment(commentId);
-        if (resp["status"] === "success") alert("Comment deleted");
+        if (resp['success']) alert("Comment deleted");
         else alert(resp["data"]);
         return (window.location = "./post.html?id=" + postId);
     });

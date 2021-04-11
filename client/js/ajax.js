@@ -35,7 +35,7 @@ const ajaxRequest = (method, path, data = null) => {
             },
             error: function(xhr, textStatus, errorMessage) {
                 let error = JSON.parse(xhr.responseText);
-                error['status'] = 'error'; // Should be set with utility function
+                error['success'] = false; // Should be set with utility function
                 reject(error);
             }
         }

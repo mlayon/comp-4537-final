@@ -1,7 +1,7 @@
 const getPosts = async() => {
     let resp = await getAllPosts();
 
-    if (resp['status'] !== 'success') {
+    if (!resp['success']) {
         alert(resp['data']);
         return window.location = './login.html'
     }

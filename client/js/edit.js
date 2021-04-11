@@ -15,7 +15,7 @@ const loadPost = async() => {
     } else {
         let post = await getPost(postId);
 
-        if (post["status"] !== "success") {
+        if (!post["success"]) {
             alert(post["data"]);
             return (window.location = "./login.html");
         }
@@ -34,7 +34,7 @@ const renderPost = (post) => {
 
 const configureButtons = () => {
     // Save button for edit.html
-    $("#saveButton").click(() => {
+    $("#saveButton").click(async() => {
         let title = document.getElementById("title").value;
         let topic = document.getElementById("topic").value;
         let content = document.getElementById("content").value;
@@ -42,16 +42,25 @@ const configureButtons = () => {
 
         if (isAllCorrectLength(title, topic, content)) {
             if (postId === "new") {
-                createPost(title, topic, content);
-                alert("Post created");
+                const resp = await createPost(title, topic, content);
+                if (resp["success"]) alert("Post created");
+                else alert(resp['data']);
                 return (window.location = "./index.html");
             } else {
-                updatePost(title, topic, content, postId);
-                alert("Post updated");
+                const resp = await updatePost(title, topic, content, postId);
+                console.log("update", resp);
+                if (resp["success"]) alert("Post updated");
+                else alert(resp['data']);
                 return (window.location = "./post.html?id=" + postId);
             }
         }
-        alert("Each field has to be between " + MIN_LENGTH + " to " + MAX_LENGTH + " characters long.");
+        alert(
+            "Each field has to be between " +
+            MIN_LENGTH +
+            " to " +
+            MAX_LENGTH +
+            " characters long."
+        );
     });
 };
 

@@ -8,7 +8,7 @@ $(document).ready(() => {
         try {
             let resp = await login(email, password);
             console.log(resp);
-            if (resp['status'] === 'success') {
+            if (resp['success']) {
                 window.location = './index.html';
             } else {
                 if (typeof resp['data'] === 'object')
@@ -31,7 +31,7 @@ $(document).ready(() => {
         try {
             let resp = await createUser(email, password);
             console.log(resp);
-            if (resp['status'] === 'success') {
+            if (resp['success']) {
                 window.location = './index.html';
             } else {
                 if (typeof resp['data'] === 'object')

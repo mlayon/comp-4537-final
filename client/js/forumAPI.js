@@ -16,7 +16,7 @@ const login = async(email, password) => {
     };
 
     let resp = await apiCall(METHOD.POST, '/login', data);
-    if (resp['status'] === 'success')
+    if (resp['success'])
         window.localStorage.setItem('jwt', resp['data']);
     return resp;
 }
@@ -28,7 +28,7 @@ const createUser = async(email, password) => {
     };
 
     let resp = await apiCall(METHOD.POST, '/register', data);
-    if (resp['status'] === 'success')
+    if (resp['success'])
         window.localStorage.setItem('jwt', resp['data']);
     return resp;
 }
