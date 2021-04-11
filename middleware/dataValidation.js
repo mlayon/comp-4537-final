@@ -48,7 +48,7 @@ const customErrorMessage = {
         email: "Must be a valid email address, for example test@forum.com",
         password: "Password must be have a eight to thirty characters with at least one letter, one number, and one special character",
     },
-    'POST/account': {
+    'POST/register': {
         email: "Must be a valid email address, for example test@forum.com",
         password: "Password must be have a eight to thirty characters with at least one letter, one number, and one special character",
     },
