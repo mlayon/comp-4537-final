@@ -1,4 +1,4 @@
-const getPosts = async () => {
+const getPosts = async() => {
     let resp = await getAllPosts();
 
     if (resp['status'] !== 'success') {
@@ -21,16 +21,16 @@ const renderPosts = (obj) => {
     let td_content = document.createElement("td");
     // let td_button = document.createElement("button");
 
-    row.classList.add("table-content"); 
+    row.classList.add("table-content");
     td_title.id = obj.post_id;
     td_title.innerHTML = obj.title;
-    td_title.classList.add("title"); 
+    td_title.classList.add("title");
 
     td_topic.innerHTML = "Topic: " + obj.topic;
-    td_topic.classList.add("topic"); 
+    td_topic.classList.add("topic");
 
     td_content.innerHTML = obj.content;
-    td_content.classList.add("content"); 
+    td_content.classList.add("content");
 
     // td_button.innerHTML = 'View Post';
     // td_button.classList.add("view-button");   
@@ -72,5 +72,7 @@ const configureButtons = () => {
 }
 
 
-configureButtons();
-getPosts();
+$(document).ready(() => {
+    configureButtons();
+    getPosts();
+});

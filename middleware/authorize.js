@@ -19,6 +19,11 @@ function authorize(adminOnly = false) {
             console.info(`Valid auth token from ${req.connection.remoteAddress}`)
 
             req.user = await db.getUser(decodeToken.email);
+            if (!req.user) {
+                console.info(`Invalid auth token from ${req.connection.remoteAddress}`)
+                return res.status(400).json(formatError("Invalid auth token"))
+            }
+
 
             if (adminOnly && !req.user.is_admin) {
                 console.info(`Invalid auth level from ${req.connection.remoteAddress}`)

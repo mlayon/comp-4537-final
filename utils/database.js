@@ -58,12 +58,8 @@ async function getUser(email) {
     return await queryDB("SELECT * FROM account WHERE email = $1", [email], RESPONSE_TYPE.SINGLE);
 }
 
-async function getUserByUsername(username) {
-    return await queryDB("SELECT * FROM account WHERE username = $1", [username], RESPONSE_TYPE.SINGLE);
-}
-
-async function createUser(username, password, email) {
-    return await queryDB("INSERT INTO account (username, password, email) VALUES ($1, $2, $3)", [username, password, email], RESPONSE_TYPE.NONE);
+async function createUser(password, email) {
+    return await queryDB("INSERT INTO account (password, email) VALUES ($1, $2)", [password, email], RESPONSE_TYPE.NONE);
 }
 
 async function getPostComments(post_id) {
@@ -126,7 +122,6 @@ async function setStat(endpoint, method, count) {
 module.exports = {
     getUsers,
     getUser,
-    getUserByUsername,
     createUser,
     getPost,
     getPostComments,

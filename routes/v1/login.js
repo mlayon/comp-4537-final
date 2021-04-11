@@ -20,7 +20,8 @@ async function login(req, res) {
         return res.status(400).json(formatError("Invalid login credentials"));
 
     // Valid login
-    account = _.pick(account, ['username', 'email', 'is_admin'])
+    // Not expiring JWT is bad, but ummmmm good enough for this
+    account = _.pick(account, ['email'])
     return res.status(200).json(formatSuccess(jwt.sign(account, process.env.TOKEN_SECRET)))
 }
 

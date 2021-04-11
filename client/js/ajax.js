@@ -34,7 +34,9 @@ const ajaxRequest = (method, path, data = null) => {
                 resolve(data);
             },
             error: function(xhr, textStatus, errorMessage) {
-                reject(JSON.parse(xhr.responseText));
+                let error = JSON.parse(xhr.responseText);
+                error['status'] = 'error'; // Should be set with utility function
+                reject(error);
             }
         }
 
@@ -46,4 +48,6 @@ const ajaxRequest = (method, path, data = null) => {
     })
 }
 
-checkIfLoggedIn();
+$(document).ready(() => {
+    checkIfLoggedIn();
+});

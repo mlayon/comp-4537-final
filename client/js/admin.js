@@ -1,4 +1,4 @@
-const getAllStats = async () => {
+const getAllStats = async() => {
     let resp = await getEndpointStats();
 
     if (resp['status'] !== 'success') {
@@ -36,4 +36,6 @@ let render = (obj) => {
 
 }
 
-getAllStats();
+$(document).ready(() => {
+    getAllStats();
+});

@@ -21,14 +21,13 @@ const updateCommentSchema = Joi.object({
 });
 
 const accountSchema = Joi.object({
-    username: Joi.string().alphanum().min(3).max(30).required(),
-    password: Joi.string().pattern(new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$")),
     email: Joi.string().email({ minDomainSegments: 2 }),
+    password: Joi.string().pattern(new RegExp("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,30}$")),
 });
 
 const loginSchema = Joi.object({
-    password: Joi.string().min(3).max(30),
     email: Joi.string().email({ minDomainSegments: 2 }),
+    password: Joi.string().min(3).max(30),
 });
 
 // Attempts to use schema mapped to method + url, request will go through with no validation if not present
@@ -45,13 +44,12 @@ const schemas = {
 // validation error occurs, the only the fields with invalid values will have the error message.
 const customErrorMessage = {
     'POST/login': {
-        username: "Must be a alphanumeric value with minimum three characters and a maximum of thirty characters",
-        password: "Minimum eight characters, max thirty characters, at least one letter, one number, and one special character",
+        email: "Must be a valid email address, for example test@forum.com",
+        password: "Password must be have a eight to thirty characters with at least one letter, one number, and one special character",
     },
     'POST/account': {
-        username: "Must be a alphanumeric value with minimum three characters and a maximum of thirty characters",
-        password: "Minimum eight characters, max thirty characters, at least one letter, one number, and one special character",
-        email: "Must be a valid email address, for example: test@forum.com",
+        email: "Must be a valid email address, for example test@forum.com",
+        password: "Password must be have a eight to thirty characters with at least one letter, one number, and one special character",
     },
 }
 
@@ -69,7 +67,7 @@ function dataValidator(req, res, next) {
         let message = error.details[0].message; // Just using the first details object for now
         let errorPath = error.details[0].path;
 
-        if (index in customErrorMessage)
+        if (index in customErrorMessage && errorPath in customErrorMessage[index])
             message = {
                 [errorPath]: customErrorMessage[index][errorPath]
             };

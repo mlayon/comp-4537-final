@@ -15,25 +15,20 @@ async function getAccount(req, resp) {
 
 // sample data
 // {
-//     "username": "test",
 //     "password": "password",
 //     "email": "test@email.com"
 // }
 async function addAccount(req, resp) {
-    let user = _.pick(req.body, ['username', 'password', 'email']);
-
-    let usernameTaken = await db.getUserByUsername(user.username);
-    if (usernameTaken)
-        return resp.status(409).json(formatError("Username is taken."))
+    let user = _.pick(req.body, ['password', 'email']);
 
     let emailTaken = await db.getUser(user.email);
     if (emailTaken)
         return resp.status(409).json(formatError("Email is taken."))
 
-    await db.createUser(user.username, bcrypt.hashSync(user.password, saltRounds), user.email);
+    await db.createUser(bcrypt.hashSync(user.password, saltRounds), user.email);
 
     // JWT creation should be pulled into a util function
-    user = _.pick(user, ['username', 'email'])
+    user = _.pick(user, ['email'])
     let token = jwt.sign(user, process.env.TOKEN_SECRET)
 
     resp.status(200).json(formatSuccess(token));
