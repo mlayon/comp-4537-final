@@ -14,7 +14,8 @@ const loadComments = async() => {
 
     renderPost(post["data"]);
 
-    for (let comment of comments["data"]) renderComment(comment);
+    if (comments["status"] == "success")
+        for (let comment of comments["data"]) renderComment(comment);
 };
 
 const renderPost = (post) => {
@@ -93,11 +94,13 @@ const configureCommentButtons = () => {
     let readOnly = true; // for toggling readonly on each comment's textarea
 
     // for adding new comments
-    $("#addComment").click(() => {
+    $("#addComment").click(async() => {
         let comment = document.getElementById("comment").value;
         if (isAllCorrectLength(comment)) {
-            createComment(comment, postId);
-            alert("Comment added");
+            const resp = await createComment(comment, postId);
+            if (resp["status"] === "success") alert("Comment added");
+            else alert(resp["data"]);
+
             return (window.location = "./post.html?id=" + postId);
         }
         alert(
@@ -118,8 +121,9 @@ const configureCommentButtons = () => {
         if (readOnly === false) {
             let comment = $("#comment" + commentId).val();
             if (isAllCorrectLength(comment)) {
-                updateComment(comment, commentId);
-                alert("Comment updated");
+                const resp = updateComment(comment, commentId);
+                if (resp["status"] === "success") alert("Comment updated");
+                else alert(resp["data"]);
                 return (window.location = "./post.html?id=" + postId);
             } else {
                 alert(
@@ -140,8 +144,9 @@ const configureCommentButtons = () => {
     // for deleting comments
     $(document).on("click", ".deleteComment", (e) => {
         let commentId = e.currentTarget.id;
-        deleteComment(commentId);
-        alert("Comment deleted");
+        const resp = deleteComment(commentId);
+        if (resp["status"] === "success") alert("Comment deleted");
+        else alert(resp["data"]);
         return (window.location = "./post.html?id=" + postId);
     });
 };

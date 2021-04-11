@@ -3,7 +3,7 @@ const getAllStats = async() => {
 
     if (resp['status'] !== 'success') {
         alert(resp['data']);
-        window.location = './index.html';
+        return window.location = './index.html';
     }
 
     for (let stat of resp['data'])

@@ -2,9 +2,9 @@ const Joi = require("joi");
 const { formatError } = require("../utils/respFormat");
 
 const addPostValidationObject = {
-    title: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(3).max(30).required(),
-    topic: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(30).required(),
-    content: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(250).required(),
+    title: Joi.string().min(3).max(30).required(),
+    topic: Joi.string().min(1).max(30).required(),
+    content: Joi.string().min(1).max(250).required(),
 }
 const udpatePostValidationObject = { post_id: Joi.number().min(-1).required() };
 
@@ -12,11 +12,11 @@ const addPostSchema = Joi.object(addPostValidationObject);
 const updatePostSchema = Joi.object(Object.assign(udpatePostValidationObject, addPostValidationObject));
 
 const addCommentSchema = Joi.object({
-    content: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(250).required(),
+    content: Joi.string().min(1).max(250).required(),
     post_id: Joi.number().min(0).required(),
 });
 const updateCommentSchema = Joi.object({
-    content: Joi.string().regex(/^[a-zA-Z0-9 ?!.#]*$/).min(1).max(250).required(),
+    content: Joi.string().min(1).max(250).required(),
     comment_id: Joi.number().min(0).required(),
 });
 

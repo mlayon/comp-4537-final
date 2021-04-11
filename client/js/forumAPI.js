@@ -27,7 +27,7 @@ const createUser = async(email, password) => {
         password: password,
     };
 
-    let resp = await apiCall(METHOD.POST, '/account', data);
+    let resp = await apiCall(METHOD.POST, '/register', data);
     if (resp['status'] === 'success')
         window.localStorage.setItem('jwt', resp['data']);
     return resp;
