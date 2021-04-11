@@ -60,6 +60,9 @@ async function deletePost(req, resp) {
     let post_id = req.query.id;
     const originalPost = await db.getPost(post_id);
 
+    if (!originalPost)
+        return resp.status(404).json(formatError(`No post with id: ${post_id}`));
+
     if (!req.user.is_admin && req.user.user_id != originalPost.user_id)
         return resp.status(401).json(formatError("This is not your post."));
 

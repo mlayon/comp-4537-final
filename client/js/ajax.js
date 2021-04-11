@@ -1,7 +1,7 @@
 const apiVersion = "v1";
 
-// const API_BASE_URL = `https://final-4537.herokuapp.com/${apiVersion}`;
-const API_BASE_URL = `http://127.0.0.1:3000/${apiVersion}`;
+const API_BASE_URL = `https://final-4537.herokuapp.com/${apiVersion}`;
+// const API_BASE_URL = `http://127.0.0.1:3000/${apiVersion}`;
 
 
 // Not the best spot, but this a common module. Should be moved to a different file or such.

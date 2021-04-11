@@ -113,7 +113,7 @@ const configureCommentButtons = () => {
     });
 
     // for editing comments
-    $(document).on("click", ".editComment", (e) => {
+    $(document).on("click", ".editComment", async(e) => {
         let commentId = e.currentTarget.id;
         console.log(commentId);
 
@@ -121,7 +121,7 @@ const configureCommentButtons = () => {
         if (readOnly === false) {
             let comment = $("#comment" + commentId).val();
             if (isAllCorrectLength(comment)) {
-                const resp = updateComment(comment, commentId);
+                const resp = await updateComment(comment, commentId);
                 if (resp['success']) alert("Comment updated");
                 else alert(resp["data"]);
                 return (window.location = "./post.html?id=" + postId);
@@ -142,9 +142,9 @@ const configureCommentButtons = () => {
     });
 
     // for deleting comments
-    $(document).on("click", ".deleteComment", (e) => {
+    $(document).on("click", ".deleteComment", async(e) => {
         let commentId = e.currentTarget.id;
-        const resp = deleteComment(commentId);
+        const resp = await deleteComment(commentId);
         if (resp['success']) alert("Comment deleted");
         else alert(resp["data"]);
         return (window.location = "./post.html?id=" + postId);
