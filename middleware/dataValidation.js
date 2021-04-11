@@ -74,7 +74,7 @@ function dataValidator(req, res, next) {
             };
 
         console.log("Invalid data for", [req.method, req.path], message);
-        return res.status(400).json(formatError(message));
+        return res.status(422).json(formatError(message));
     }
 
     next();
