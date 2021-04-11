@@ -1,10 +1,14 @@
 require('dotenv').config()
 
 const express = require("express");
-const morgan = require("morgan");
-const authorize = require("./utils/authorize");
-const statsRecorder = require("./utils/stats");
 
+// Middleware
+const morgan = require("morgan");
+const authorize = require("./middleware/authorize");
+const statsRecorder = require("./middleware/stats");
+const dataValidator = require("./middleware/dataValidation");
+
+// Routers
 const loginRouter = require('./routes/login');
 const accountRouter = require('./routes/accounts');
 const postRouter = require('./routes/posts');
@@ -20,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(statsRecorder);
+app.use(dataValidator);
 
 // TODO: Change to allow access only from known forum url
 app.use(function(req, res, next) {
@@ -33,11 +38,7 @@ app.get("/", function(req, res) {
     return res.status(200).send("Hello World!");
 });
 
-// All endpoints are optimistic of the data they receive. If data validation is required, a module
-// such a joi could be used.
-
 // TODO: add versioning to the path. 
-
 app.use("/login", loginRouter);
 app.use("/account", accountRouter);
 app.use(authorize(false));
