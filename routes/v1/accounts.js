@@ -1,5 +1,5 @@
-const { formatSuccess, formatError } = require('../utils/respFormat');
-const db = require('../utils/database')
+const { formatSuccess, formatError } = require('../../utils/respFormat');
+const db = require('../../utils/database')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
@@ -33,7 +33,7 @@ async function addAccount(req, resp) {
     await db.createUser(user.username, bcrypt.hashSync(user.password, saltRounds), user.email);
 
     // JWT creation should be pulled into a util function
-    user = _.pick(user, ['username', 'email', 'is_admin'])
+    user = _.pick(user, ['username', 'email'])
     let token = jwt.sign(user, process.env.TOKEN_SECRET)
 
     resp.status(200).json(formatSuccess(token));

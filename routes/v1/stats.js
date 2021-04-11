@@ -1,5 +1,5 @@
-const { formatSuccess, formatError } = require('../utils/respFormat');
-const db = require('../utils/database');
+const { formatSuccess } = require('../../utils/respFormat');
+const db = require('../../utils/database');
 
 const router = require('express').Router();
 

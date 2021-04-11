@@ -1,0 +1,1 @@
+module.exports = "Our app is a web forum where users can talk about anything they want. Users can create posts about any topic: pizzas, programming or even penguins. They can also comment on existing posts and start a heated debate in the comment thread. Posts and comments can also be edited and deleted."

@@ -1,7 +1,7 @@
-const { formatSuccess, formatError } = require('../utils/respFormat');
+const { formatSuccess, formatError } = require('../../utils/respFormat');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
-const db = require('../utils/database')
+const db = require('../../utils/database')
 const bcrypt = require('bcrypt');
 
 const router = require('express').Router();
